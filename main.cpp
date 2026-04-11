@@ -6,8 +6,6 @@
 #include <functional>
 #include <bits/stdc++.h>
 
-#include "numina/classes/transfer-function/transfer-function.hpp"
-
 class TranFunc {
 private:
     std::vector <std::complex <double>> roots = {
