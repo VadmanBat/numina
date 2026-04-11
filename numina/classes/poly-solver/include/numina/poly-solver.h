@@ -46,7 +46,7 @@ private:
     std::vector<Polynomial> dfx;
     std::vector<Polynomial> nums, dens;
 
-    void compute_derivative();
+    void compute_derivative() const;
 
     void setup_state(const std::vector<Type>& coefficients);
     void setup_state(std::vector<Type>&& coefficients);
@@ -54,9 +54,9 @@ private:
     void setup_state(Polynomial&& poly);
     void clear_state();
 
-    Complex f(const Complex& x);
-    Complex d1(const Complex& x);
-    Complex d2(const Complex& x);
+    [[nodiscard]] Complex f(const Complex& x) const;
+    [[nodiscard]] Complex d1(const Complex& x) const;
+    [[nodiscard]] Complex d2(const Complex& x) const;
 
     int compute_multiplicity(const Complex& x);
 

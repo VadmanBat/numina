@@ -1,7 +1,7 @@
 #include "numina/poly-solver.h"
 // Created by Vadim on 14.07.2025.
 namespace numina {
-void PolySolver::compute_derivative() {
+void PolySolver::compute_derivative() const {
     const auto n = degree - 1;
     int power = static_cast<int>(degree);
     for (std::size_t i = 0; i < n; ++i) {
@@ -11,7 +11,7 @@ void PolySolver::compute_derivative() {
     c_d1[n] = power * c[n];
 }
 
-void PolySolver::deflate(const Type& root, int m) {
+void PolySolver::deflate(const Type& root, const int m) {
     if ((degree -= m) == 0)
         return;
 
@@ -22,7 +22,7 @@ void PolySolver::deflate(const Type& root, int m) {
     compute_derivative();
 }
 
-void PolySolver::deflate_conj(const Complex& root, int m) {
+void PolySolver::deflate_conj(const Complex& root, const int m) {
     if ((degree -= 2 * m) == 0)
         return;
 
