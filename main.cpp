@@ -130,7 +130,7 @@ int main(int argc, char* argv[]) {
     {
         auto start = std::chrono::high_resolution_clock::now();
 
-        PolySolver x;
+        numina::PolySolver x;
         for (int i = 0; i < 1e6; ++i) {
             //std::cout << i << '\n';
             auto roots = x.solve(mul);

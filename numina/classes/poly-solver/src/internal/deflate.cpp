@@ -1,9 +1,6 @@
-//
+#include "numina/poly-solver.h"
 // Created by Vadim on 14.07.2025.
-//
-
-#include "../../include/numina/poly-solver.h"
-
+namespace numina {
 void PolySolver::compute_derivative() {
     const auto n = degree - 1;
     int power = static_cast<int>(degree);
@@ -41,6 +38,7 @@ void PolySolver::deflate_conj(const Complex& root, int m) {
     }
 
     compute_derivative();
+}
 }
 
 /* backward deflation:

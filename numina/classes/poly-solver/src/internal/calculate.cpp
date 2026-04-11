@@ -1,9 +1,6 @@
-//
+#include "numina/poly-solver.h"
 // Created by Vadim on 13.07.2025.
-//
-
-#include "../../include/numina/poly-solver.h"
-
+namespace numina {
 PolySolver::Complex PolySolver::f(const Complex& x) {
     Complex result = c[0];
     for (std::size_t i = 1; i <= degree; ++i)
@@ -51,4 +48,5 @@ int PolySolver::compute_multiplicity(const Complex& x) {
     }
 
     return 1;
+}
 }

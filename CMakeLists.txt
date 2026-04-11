@@ -29,3 +29,10 @@ add_executable(${PROJECT_NAME}
         numina/classes/poly-solver/src/internal/solve.cpp
         numina/classes/polynomial/src/roots/multiplicity.cpp
 )
+
+# ========== Красивые include ==========
+target_include_directories(${PROJECT_NAME} PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/numina/classes/polynomial/include
+        ${CMAKE_CURRENT_SOURCE_DIR}/numina/classes/poly-solver/include
+        ${CMAKE_CURRENT_SOURCE_DIR}/numina/classes/transfer-function/include
+)

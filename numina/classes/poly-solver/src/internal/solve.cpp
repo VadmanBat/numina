@@ -1,9 +1,6 @@
-//
+#include "numina/poly-solver.h"
 // Created by Vadim on 21.08.2025.
-//
-
-#include "../../include/numina/poly-solver.h"
-
+namespace numina {
 std::vector <PolySolver::Complex> PolySolver::solve() {
     std::vector <Complex> roots;
     roots.reserve(degree);
@@ -134,4 +131,5 @@ PolySolver::Roots PolySolver::solve_with_multiplicities() {
 
     clear_state();
     return roots;
+}
 }

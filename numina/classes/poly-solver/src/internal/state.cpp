@@ -1,9 +1,6 @@
-//
+#include "numina/poly-solver.h"
 // Created by Vadim on 18.08.2025.
-//
-
-#include "../../include/numina/poly-solver.h"
-
+namespace numina {
 void PolySolver::setup_state(const std::vector <Type>& coefficients) {
     coeffs = coefficients;
     degree = coeffs.size() - 1;
@@ -113,3 +110,4 @@ void PolySolver::clear_state() {
     nums.clear();
     dens.clear();
 }
+    }

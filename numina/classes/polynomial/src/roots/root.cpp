@@ -7,12 +7,12 @@
 #include "../../../poly-solver/include/numina/poly-solver.h"
 
 std::vector <Polynomial::Complex> Polynomial::computeRoots() const {
-    PolySolver solver;
+    numina::PolySolver solver;
     return solver.solve(*this);
 }
 
 Polynomial::Roots Polynomial::computeRootsWithMultiplicity() const {
-    PolySolver solver;
+    numina::PolySolver solver;
     return solver.solveWithMultiplicities(*this);
 }
 
