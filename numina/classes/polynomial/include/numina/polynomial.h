@@ -23,7 +23,7 @@ private:
     void zeroing();
 
 public:
-    Polynomial(const Type& constant = {});
+    constexpr Polynomial(const Type& constant = {});
     Polynomial(const std::vector<Type>& coefficients);
     Polynomial(std::vector<Type>&& coefficients) noexcept;
     Polynomial(const Polynomial& other);
@@ -31,14 +31,14 @@ public:
 
     ~Polynomial() = default;
 
-    [[nodiscard]] int degree() const { return static_cast<int>(n) - 1; }
-    [[nodiscard]] const Type& operator[](const std::size_t index) const { return c[index]; }
-    [[nodiscard]] Type& operator[](const std::size_t index) { return c[index]; }
-    [[nodiscard]] const Type* data() const { return c; }
-    [[nodiscard]] Type* data() { return c; }
+    [[nodiscard]] constexpr int degree() const noexcept { return static_cast<int>(n) - 1; }
+    [[nodiscard]] constexpr const Type& operator[](const std::size_t index) const noexcept { return c[index]; }
+    [[nodiscard]] constexpr Type& operator[](const std::size_t index) noexcept { return c[index]; }
+    [[nodiscard]] constexpr const Type* data() const noexcept { return c; }
+    [[nodiscard]] constexpr Type* data() noexcept { return c; }
     [[nodiscard]] std::vector<Type> vector() const { return coeffs; }
     [[nodiscard]] std::vector<Type> extractVector() && noexcept { return std::move(coeffs); }
-    [[nodiscard]] bool isZero() const { return n == 1 && c[0] == 0; }
+    [[nodiscard]] constexpr bool isZero() const noexcept { return n == 1 && c[0] == 0; }
 
     [[nodiscard]] Polynomial derivative() const;
     [[nodiscard]] Polynomial derivative(std::size_t k) const;
@@ -114,3 +114,9 @@ public:
     friend std::ostream& operator<<(std::ostream& os, const Polynomial& poly);
     friend std::istream& operator>>(std::istream& is, Polynomial& poly);
 };
+
+constexpr Polynomial::Polynomial(const Type& constant) :
+    coeffs(1, constant),
+    n(1),
+    c(coeffs.data()) {
+}

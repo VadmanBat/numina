@@ -1,11 +1,5 @@
 #include "numina/polynomial.h"
 // Created by Vadim on 18.06.2025.
-Polynomial::Polynomial(const Type& constant) :
-    coeffs(1, constant),
-    n(1),
-    c(coeffs.data()) {
-}
-
 Polynomial::Polynomial(const std::vector<Type>& coefficients) :
     coeffs(coefficients.empty() ? std::vector<Type>(1, 0) : coefficients),
     n(coeffs.size()),
