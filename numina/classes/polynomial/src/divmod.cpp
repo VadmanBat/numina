@@ -1,4 +1,4 @@
-#include "../include/numina/polynomial.h"
+#include "numina/polynomial.h"
 // Created by Vadim on 19.06.2025.
 std::pair<Polynomial, Polynomial> Polynomial::divmod(const Polynomial& divisor) const {
     if (divisor.isZero())
