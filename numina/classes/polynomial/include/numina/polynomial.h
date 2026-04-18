@@ -59,10 +59,6 @@ public:
 
     [[nodiscard]] std::vector<Complex> computeRoots() const;
     [[nodiscard]] Roots computeRootsWithMultiplicity() const;
-    [[nodiscard]] bool isRoot(const Type& root, const Type& tolerance = 1e-6) const;
-    [[nodiscard]] bool isRoot(const Complex& root, const Type& tolerance = 1e-6) const;
-    [[nodiscard]] Type refineRoot(Type root, const Type& tolerance = 1e-6) const;
-    [[nodiscard]] Complex refineRoot(Complex root, const Type& tolerance = 1e-6) const;
 
     [[nodiscard]] Type multiplicity(const Type& x, std::size_t m = 1) const;
     [[nodiscard]] Type multiplicity(const Complex& x, std::size_t m = 1) const;
