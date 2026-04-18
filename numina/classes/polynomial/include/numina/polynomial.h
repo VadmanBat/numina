@@ -64,22 +64,10 @@ public:
     [[nodiscard]] Type refineRoot(Type root, const Type& tolerance = 1e-6) const;
     [[nodiscard]] Complex refineRoot(Complex root, const Type& tolerance = 1e-6) const;
 
-    [[nodiscard]] Type multiplicity(const Type& x) const;
-    [[nodiscard]] Type multiplicity(const Complex& x) const;
-    [[nodiscard]] Type multiplicity(const Type& x, int m) const;
-    [[nodiscard]] long double multiplicity(const long double& x, int m) const;
-    [[nodiscard]] Type multiplicity(const Complex& x, bool f) const;
-
-    /// зона кратные корней
-    [[nodiscard]] int __computeMultiplicity(const Type& x, bool d = false) const;
-    [[nodiscard]] int __computeMultiplicity(const Complex& x, bool d = false) const;
-
-    [[nodiscard]] int computeMultiplicity(const Type& x) const;
-    [[nodiscard]] int computeMultiplicity(const Complex& x) const;
-    [[nodiscard]] Type lag(const Type& x, int m) const;
-    [[nodiscard]] long double lag(const long double& x, int m = 1) const;
-    int compute_multiplicity(const Type& x, double tol = 1e-8) const;
-    ////
+    [[nodiscard]] Type multiplicity(const Type& x, std::size_t m = 1) const;
+    [[nodiscard]] Type multiplicity(const Complex& x, std::size_t m = 1) const;
+    [[nodiscard]] std::size_t computeMultiplicity(const Type& x) const;
+    [[nodiscard]] std::size_t computeMultiplicity(const Complex& x) const;
 
     Type operator()(const Type& x) const;
     Complex operator()(const Complex& x) const;
