@@ -1,11 +1,5 @@
-//
+#include "numina/polynomial.h"
 // Created by Vadim on 20.06.2025.
-//
-
-#include "../../include/numina/polynomial.h"
-
-#include <numbers>
-
 void Polynomial::remove_leading_zeros() {
     static const Type epsilon = std::sqrt(std::numeric_limits<Type>::epsilon());
 
@@ -14,7 +8,7 @@ void Polynomial::remove_leading_zeros() {
 
     for (std::size_t i = 1; i < n; ++i)
         if (std::abs(c[i]) > epsilon) {
-            coeffs.erase(coeffs.begin(), coeffs.begin() + int(i));
+            coeffs.erase(coeffs.begin(), coeffs.begin() + static_cast<long long>(i));
             n -= i;
             return;
         }
@@ -25,5 +19,5 @@ void Polynomial::remove_leading_zeros() {
 void Polynomial::zeroing() {
     coeffs.resize(1);
     c[0] = 0;
-    n = 1;
+    n    = 1;
 }

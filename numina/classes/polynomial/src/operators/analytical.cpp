@@ -1,11 +1,7 @@
-//
+#include "numina/polynomial.h"
 // Created by Vadim on 18.06.2025.
-//
-
-#include "../../include/numina/polynomial.h"
-
 Polynomial::Type Polynomial::operator()(const Type& x) const {
-   Type result = c[0];
+    Type result = c[0];
     for (std::size_t i = 1; i < n; ++i)
         (result *= x) += c[i];
     return result;
@@ -18,33 +14,49 @@ Polynomial::Complex Polynomial::operator()(const Complex& x) const {
     return result;
 }
 
+Polynomial::LongType Polynomial::operator()(const LongType& x) const {
+    LongType result = c[0];
+    for (std::size_t i = 1; i < n; ++i)
+        (result *= x) += c[i];
+    return result;
+}
+
+Polynomial::LongComplex Polynomial::operator()(const LongComplex& x) const {
+    LongComplex result = c[0];
+    for (std::size_t i = 1; i < n; ++i)
+        (result *= x) += c[i];
+    return result;
+}
+
 Polynomial Polynomial::derivative() const {
     if (n < 2) /// n = 1: C -> 0
         return {};
 
-    std::vector <Type> new_coeffs(n - 1);
-    auto new_c = new_coeffs.data();
-    int power = static_cast<int>(n);
+    std::vector<Type> new_coeffs(n - 1);
+    const auto new_c = new_coeffs.data();
+    int power        = static_cast<int>(n);
     for (std::size_t i = 0; i < n - 1; ++i)
         new_c[i] = --power * c[i];
 
     return {std::move(new_coeffs)};
 }
 
-Polynomial Polynomial::derivative(int k) const {
+Polynomial Polynomial::derivative(const std::size_t k) const {
+    if (k == 0)
+        return *this;
     if (n <= k)
         return {};
 
     const auto new_n = n - k;
-    std::vector <Type> new_coeffs(new_n);
-    auto new_c = new_coeffs.data();
-    int power = static_cast<int>(n - 1);
-    Type mul = power;
-    for (int j = 1; j < k; ++j)
+    std::vector<Type> new_coeffs(new_n);
+    const auto new_c = new_coeffs.data();
+    auto power       = n - 1;
+    auto mul         = power;
+    for (std::size_t j = 1; j < k; ++j)
         mul *= --power;
     for (std::size_t i = 0; i < new_n; ++i) {
-        new_c[i] = mul * c[i];
-        (mul /= --power + k) *= power;
+        new_c[i] = static_cast<Type>(mul) * c[i];
+        (mul     /= --power + k) *= power;
     }
 
     return {std::move(new_coeffs)};
@@ -56,35 +68,37 @@ void Polynomial::makeDerivative() {
         return;
     }
 
-   int power = static_cast<int>(n);
+    int power = static_cast<int>(n);
     --n;
     for (std::size_t i = 0; i < n; ++i)
         c[i] *= --power;
     coeffs.pop_back();
 }
 
-void Polynomial::makeDerivative(int k) {
+void Polynomial::makeDerivative(const std::size_t k) {
+    if (k == 0)
+        return;
     if (n <= k) {
         zeroing();
         return;
     }
 
-    int power = static_cast<int>(n - 1);
-    n -= k;
-    Type mul = power;
-    for (int j = 1; j < k; ++j)
+    auto power = n - 1;
+    n          -= k;
+    auto mul   = power;
+    for (std::size_t j = 1; j < k; ++j)
         mul *= --power;
     for (std::size_t i = 0; i < n; ++i) {
-        c[i] *= mul;
+        c[i] *= static_cast<Type>(mul);
         (mul /= --power + k) *= power;
     }
     coeffs.resize(n);
 }
 
 Polynomial Polynomial::integral(const Type& constant) const {
-    std::vector <Type> new_coeffs(n + 1);
-    auto new_c = new_coeffs.data();
-    int power = static_cast<int>(n);
+    std::vector<Type> new_coeffs(n + 1);
+    const auto new_c = new_coeffs.data();
+    int power        = static_cast<int>(n);
     for (std::size_t i = 0; i < n; ++i) {
         new_c[i] = c[i] / power;
         --power;
@@ -109,7 +123,7 @@ Polynomial Polynomial::deflate(const Type& root) const {
         return {};
 
     const auto new_n = n - 1;
-    std::vector <Type> answer(new_n);
+    std::vector<Type> answer(new_n);
     const auto a = answer.data();
 
     a[0] = c[0];
@@ -139,10 +153,10 @@ Polynomial Polynomial::deflateConjRoot(const Complex& root) const {
 
     const Type real = root.real();
     const Type imag = root.imag();
-    const Type c1 = 2 * real;
-    const Type c2 = real * real + imag * imag;
+    const Type c1   = 2 * real;
+    const Type c2   = real * real + imag * imag;
 
-    std::vector <Type> answer(new_n);
+    std::vector<Type> answer(new_n);
     const auto a = answer.data();
 
     a[0] = c[0];
@@ -161,10 +175,10 @@ void Polynomial::makeDeflateConjRoot(const Complex& root) {
 
     const Type real = root.real();
     const Type imag = root.imag();
-    const Type c1 = 2 * real;
-    const Type c2 = real * real + imag * imag;
+    const Type c1   = 2 * real;
+    const Type c2   = real * real + imag * imag;
 
-    n -= 2;
+    n    -= 2;
     c[1] += c1 * c[0];
     for (std::size_t i = 2; i < n; ++i)
         c[i] += c1 * c[i - 1] - c2 * c[i - 2];
@@ -175,7 +189,7 @@ Polynomial Polynomial::monic() const {
     if (c[0] == 1)
         return {coeffs};
 
-    std::vector <Type> answer(coeffs);
+    std::vector<Type> answer(coeffs);
     const auto a = answer.data();
     for (std::size_t i = 1; i < n; ++i)
         a[i] /= a[0];

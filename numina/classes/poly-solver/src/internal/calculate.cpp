@@ -47,6 +47,6 @@ int PolySolver::compute_multiplicity(const Complex& x) {
         dens.emplace_back(den.derivative(2));
     }
 
-    return 1;
+    return m;
 }
 }

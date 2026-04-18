@@ -1,9 +1,5 @@
-//
+#include "numina/polynomial.h"
 // Created by Vadim on 20.06.2025.
-//
-
-#include "../../include/numina/polynomial.h"
-
 bool Polynomial::operator==(const Polynomial& other) const {
     if (n != other.n)
         return false;

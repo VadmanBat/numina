@@ -1,9 +1,5 @@
-//
-// Created by Vadim on 18.06.2025.
-//
-
 #include "../../include/numina/polynomial.h"
-
+// Created by Vadim on 18.06.2025.
 Polynomial& Polynomial::operator+=(const Type& scalar) {
     c[n - 1] += scalar;
     return *this;

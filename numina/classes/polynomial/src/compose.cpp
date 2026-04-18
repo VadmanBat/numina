@@ -1,9 +1,5 @@
-//
-// Created by Vadim on 11.07.2025.
-//
-
 #include "../include/numina/polynomial.h"
-
+// Created by Vadim on 11.07.2025.
 Polynomial Polynomial::compose(const Polynomial& other) const {
     if (isZero() || other.isZero())
         return {};
