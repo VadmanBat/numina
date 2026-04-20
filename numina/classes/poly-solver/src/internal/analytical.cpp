@@ -1,7 +1,7 @@
 #include "numina/poly-solver.h"
 // Created by Vadim on 19.04.2026.
 namespace numina {
-void PolySolver::solve_quadratic() {
+void PolySolver::solve_quadratic_case() {
 #define a coeffs[0]
 #define b coeffs[1]
 #define c coeffs[2]
@@ -28,7 +28,7 @@ void PolySolver::solve_quadratic() {
 #undef c
 }
 
-PolySolver::Roots PolySolver::solve_cases() {
+void PolySolver::solve_cases() {
     std::size_t zero_mult = 0;
     while (zero_mult < degree && coeffs[degree - zero_mult] == 0)
         ++zero_mult;
@@ -46,13 +46,12 @@ PolySolver::Roots PolySolver::solve_cases() {
             result.first.emplace_back(-coeffs[1] / coeffs[0], 1);
             break;
         case 2:
-            solve_quadratic();
+            solve_quadratic_case();
             break;
         default:
             solve_with_implicit_deflation();
     }
 
     clear();
-    return result;
 }
 }

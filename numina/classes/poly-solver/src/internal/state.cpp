@@ -79,7 +79,5 @@ void PolySolver::prepare(Polynomial&& poly) {
 
 void PolySolver::clear() {
     df.clear();
-    /*nums.clear();
-    dens.clear();*/
 }
 }

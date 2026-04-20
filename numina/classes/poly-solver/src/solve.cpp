@@ -25,64 +25,48 @@ std::vector <PolySolver::Complex> PolySolver::solve(Polynomial&& poly) {
 PolySolver::Roots PolySolver::solveWithMultiplicities(const std::vector <Type>& coefficients) {
     prepare(coefficients);
     solve_cases();
-    auto res = std::move(result);
-    clear();
-    return res;
+    return std::move(result);
 }
 
 PolySolver::Roots PolySolver::solveWithMultiplicities(std::vector <Type>&& coefficients) {
     prepare(std::move(coefficients));
     solve_cases();
-    auto res = std::move(result);
-    clear();
-    return res;
+    return std::move(result);
 }
 
 PolySolver::Roots PolySolver::solveWithMultiplicities(const Polynomial& poly) {
     prepare(poly);
     solve_cases();
-    auto res = std::move(result);
-    clear();
-    return res;
+    return std::move(result);
 }
 
 PolySolver::Roots PolySolver::solveWithMultiplicities(Polynomial&& poly) {
     prepare(std::move(poly));
     solve_cases();
-    auto res = std::move(result);
-    clear();
-    return res;
+    return std::move(result);
 }
 ///
 PolySolver::Roots PolySolver::solveWithImplicitDeflation(const std::vector<Type>& coefficients) {
     prepare(coefficients);
     solve_cases();
-    auto res = std::move(result);
-    clear();
-    return res;
+    return std::move(result);
 }
 
 PolySolver::Roots PolySolver::solveWithImplicitDeflation(std::vector<Type>&& coefficients) {
     prepare(std::move(coefficients));
     solve_cases();
-    auto res = std::move(result);
-    clear();
-    return res;
+    return std::move(result);
 }
 
 PolySolver::Roots PolySolver::solveWithImplicitDeflation(const Polynomial& poly) {
     prepare(poly);
     solve_cases();
-    auto res = std::move(result);
-    clear();
-    return res;
+    return std::move(result);
 }
 
 PolySolver::Roots PolySolver::solveWithImplicitDeflation(Polynomial&& poly) {
     prepare(std::move(poly));
     solve_cases();
-    auto res = std::move(result);
-    clear();
-    return res;
+    return std::move(result);
 }
 }

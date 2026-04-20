@@ -1,5 +1,4 @@
 #include "numina/poly-solver.h"
-#include <iostream>
 // Created by Vadim on 21.08.2025.
 namespace numina {
 std::vector<PolySolver::Complex> PolySolver::solve() {
@@ -27,8 +26,7 @@ std::vector<PolySolver::Complex> PolySolver::solve() {
 
         int m = 1;
         if (std::abs(fx) < E2 * std::abs(x)) {
-            m = compute_multiplicity(x);
-            //m = df[0].computeMultiplicity(x);
+            m = df[0].computeMultiplicity(x);
             if (m > 2)
                 for (std::size_t i = df.size() - 1; i < m; ++i)
                     df.emplace_back(df[i].derivative());
@@ -71,9 +69,7 @@ std::vector<PolySolver::Complex> PolySolver::solve() {
     return roots;
 }
 
-PolySolver::Roots PolySolver::solve_with_multiplicities() {
-    Roots roots;
-
+void PolySolver::solve_with_multiplicities() {
     Type error_previous, error_current;
     Complex x, fx, d1fx, d2fx, b, discriminant, a1, a2, gx, root;
 
@@ -95,8 +91,7 @@ PolySolver::Roots PolySolver::solve_with_multiplicities() {
 
         int m = 1;
         if (std::abs(fx) < E2 * std::abs(x)) {
-            m = compute_multiplicity(x);
-            //m = df[0].computeMultiplicity(x);
+            m = df[0].computeMultiplicity(x);
             if (m > 2)
                 for (std::size_t i = df.size() - 1; i < m; ++i)
                     df.emplace_back(df[i].derivative());
@@ -122,20 +117,18 @@ PolySolver::Roots PolySolver::solve_with_multiplicities() {
         }
 
         if (std::abs(root.imag()) > E1 * std::abs(root)) {
-            roots.second.emplace_back(root, m);
+            result.second.emplace_back(root, m);
             deflate_conj(root, m);
         }
         else {
             const auto r = root.real();
-            roots.first.emplace_back(r, m);
+            result.first.emplace_back(r, m);
             deflate(r, m);
         }
     }
-
-    clear();
-    return roots;
 }
-PolySolver::Roots PolySolver::solve_with_implicit_deflation() {
+
+void PolySolver::solve_with_implicit_deflation() {
     std::vector<std::pair<Complex, int>> found; // (корень, кратность)
     std::size_t m_eff = degree;
 
@@ -191,9 +184,7 @@ PolySolver::Roots PolySolver::solve_with_implicit_deflation() {
         // ==============================================
         int m = 1;
         if (std::abs(f(x)) < E2 * std::abs(x)) {
-            m = compute_multiplicity(x);
-            //m = df[0].computeMultiplicity(x);
-            //std::cout << "m = " << m << ", x = " << x << '\n';
+            m = df[0].computeMultiplicity(x);
             if (m > 2)
                 for (std::size_t i = df.size() - 1; i < static_cast<std::size_t>(m); ++i)
                     df.emplace_back(df[i].derivative());
@@ -249,9 +240,6 @@ PolySolver::Roots PolySolver::solve_with_implicit_deflation() {
             result.first.emplace_back(root.real(), m);
         }
     }
-
-    clear();
-    return result;
 }
 /*
 PolySolver::Roots PolySolver::solve_with_implicit_deflation() {

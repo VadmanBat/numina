@@ -71,16 +71,15 @@ private:
     [[nodiscard]] Complex d2(const Complex& x) const;
 
     std::size_t compute_multiplicity(const Complex& x);
-
     void deflate(const Type& root, int m = 1);
     void deflate_conj(const Complex& root, int m = 1);
 
     std::vector<Complex> solve();
-    Roots solve_with_multiplicities();
-    Roots solve_with_implicit_deflation();
+    void solve_with_multiplicities();
+    void solve_with_implicit_deflation();
 
-    void solve_quadratic();
-    Roots solve_cases();
+    void solve_quadratic_case();
+    void solve_cases();
 };
 }
 
