@@ -30,7 +30,7 @@ std::size_t Polynomial::computeMultiplicity(const Type& x) const {
     }
 
     int prev_m = -1;
-    for (std::size_t m = 1; m <= n; ++m) {
+    for (std::size_t m = 1; m < n; ++m) {
         const Type m1 = static_cast<Type>(m) - 1 + dfx_1[m] * dfx_1[m] / (
                             dfx_1[m] * dfx_1[m] - dfx_1[m - 1] * dfx_1[m + 1]);
         const LongType m2 = static_cast<LongType>(m) - 1 + dfx_2[m] * dfx_2[m] / (
@@ -67,7 +67,7 @@ std::size_t Polynomial::computeMultiplicity(const Complex& x) const {
     }
 
     int prev_m = -1;
-    for (std::size_t m = 1; m <= n; ++m) {
+    for (std::size_t m = 1; m < n; ++m) {
         const Type m1 = static_cast<Type>(m) - 1 + (dfx_1[m] * dfx_1[m] / (
                                dfx_1[m] * dfx_1[m] - dfx_1[m - 1] * dfx_1[m + 1])).real();
         const LongType m2 = static_cast<LongType>(m) - 1 + (dfx_2[m] * dfx_2[m] / (
@@ -121,7 +121,7 @@ std::size_t Polynomial::computeMultiplicity(const Type& x) const {
     }
 
     int prev_m = -1;
-    for (std::size_t m = 1; m <= n; ++m) {
+    for (std::size_t m = 1; m < n; ++m) {
         t1.num = t1.den = 0;
         t2.num = t2.den = 0;
 
