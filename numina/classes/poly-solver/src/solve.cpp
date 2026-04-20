@@ -1,43 +1,88 @@
 #include "numina/poly-solver.h"
 // Created by Vadim on 13.07.2025.
+#include <iostream>
 namespace numina {
 std::vector <PolySolver::Complex> PolySolver::solve(const std::vector <Type>& coefficients) {
-    setup_state(coefficients);
+    prepare(coefficients);
     return solve();
 }
 
 std::vector <PolySolver::Complex> PolySolver::solve(std::vector <Type>&& coefficients) {
-    setup_state(std::move(coefficients));
+    prepare(std::move(coefficients));
     return solve();
 }
 
 std::vector <PolySolver::Complex> PolySolver::solve(const Polynomial& poly) {
-    setup_state(poly);
+    prepare(poly);
     return solve();
 }
 
 std::vector <PolySolver::Complex> PolySolver::solve(Polynomial&& poly) {
-    setup_state(std::move(poly));
+    prepare(std::move(poly));
     return solve();
 }
 
 PolySolver::Roots PolySolver::solveWithMultiplicities(const std::vector <Type>& coefficients) {
-    setup_state(coefficients);
-    return solve_with_multiplicities();
+    prepare(coefficients);
+    solve_cases();
+    auto res = std::move(result);
+    clear();
+    return res;
 }
 
 PolySolver::Roots PolySolver::solveWithMultiplicities(std::vector <Type>&& coefficients) {
-    setup_state(std::move(coefficients));
-    return solve_with_multiplicities();
+    prepare(std::move(coefficients));
+    solve_cases();
+    auto res = std::move(result);
+    clear();
+    return res;
 }
 
 PolySolver::Roots PolySolver::solveWithMultiplicities(const Polynomial& poly) {
-    setup_state(poly);
-    return solve_with_multiplicities();
+    prepare(poly);
+    solve_cases();
+    auto res = std::move(result);
+    clear();
+    return res;
 }
 
 PolySolver::Roots PolySolver::solveWithMultiplicities(Polynomial&& poly) {
-    setup_state(std::move(poly));
-    return solve_with_multiplicities();
+    prepare(std::move(poly));
+    solve_cases();
+    auto res = std::move(result);
+    clear();
+    return res;
+}
+///
+PolySolver::Roots PolySolver::solveWithImplicitDeflation(const std::vector<Type>& coefficients) {
+    prepare(coefficients);
+    solve_cases();
+    auto res = std::move(result);
+    clear();
+    return res;
+}
+
+PolySolver::Roots PolySolver::solveWithImplicitDeflation(std::vector<Type>&& coefficients) {
+    prepare(std::move(coefficients));
+    solve_cases();
+    auto res = std::move(result);
+    clear();
+    return res;
+}
+
+PolySolver::Roots PolySolver::solveWithImplicitDeflation(const Polynomial& poly) {
+    prepare(poly);
+    solve_cases();
+    auto res = std::move(result);
+    clear();
+    return res;
+}
+
+PolySolver::Roots PolySolver::solveWithImplicitDeflation(Polynomial&& poly) {
+    prepare(std::move(poly));
+    solve_cases();
+    auto res = std::move(result);
+    clear();
+    return res;
 }
 }

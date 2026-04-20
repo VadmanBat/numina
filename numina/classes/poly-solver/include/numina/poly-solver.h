@@ -10,9 +10,11 @@
 namespace numina {
 class PolySolver {
 public:
-    using Type    = double;
-    using Complex = std::complex<Type>;
-    using Roots   = std::pair<
+    using Type        = double;
+    using Complex     = std::complex<Type>;
+    using LongType    = long double;
+    using LongComplex = std::complex<LongType>;
+    using Roots       = std::pair<
         std::vector<std::pair<Type, int>>,
         std::vector<std::pair<Complex, int>>
     >;
@@ -29,9 +31,16 @@ public:
     Roots solveWithMultiplicities(const Polynomial& poly);
     Roots solveWithMultiplicities(Polynomial&& poly);
 
+    Roots solveWithImplicitDeflation(const std::vector<Type>& coefficients);
+    Roots solveWithImplicitDeflation(std::vector<Type>&& coefficients);
+    Roots solveWithImplicitDeflation(const Polynomial& poly);
+    Roots solveWithImplicitDeflation(Polynomial&& poly);
+
 private:
-    inline static const Type e1 = std::sqrt(std::numeric_limits<Type>::epsilon());
-    inline static const Type e2 = std::sqrt(e1);
+    inline static const Type E1                    = std::sqrt(std::numeric_limits<Type>::epsilon());
+    inline static const Type E2                    = std::sqrt(E1);
+    static constexpr std::size_t LAGUERRE_MAX_ITER = 30;
+    static constexpr std::size_t NEWTON_MAX_ITER   = 30;
 
     std::size_t degree = 0;
 
@@ -43,34 +52,44 @@ private:
     Type* c_d1 = nullptr;
     Type* c_d2 = nullptr;
 
-    std::vector<Polynomial> dfx;
-    std::vector<Polynomial> nums, dens;
+    std::vector<Polynomial> df;
+
+    Roots result;
 
     void compute_derivative() const;
 
-    void setup_state(const std::vector<Type>& coefficients);
-    void setup_state(std::vector<Type>&& coefficients);
-    void setup_state(const Polynomial& poly);
-    void setup_state(Polynomial&& poly);
-    void clear_state();
+    void trim_leading_zeros() noexcept;
+    void prepare();
+    void prepare(const std::vector<Type>& coefficients);
+    void prepare(std::vector<Type>&& coefficients);
+    void prepare(const Polynomial& poly);
+    void prepare(Polynomial&& poly);
+    void clear();
 
     [[nodiscard]] Complex f(const Complex& x) const;
     [[nodiscard]] Complex d1(const Complex& x) const;
     [[nodiscard]] Complex d2(const Complex& x) const;
 
-    int compute_multiplicity(const Complex& x);
+    std::size_t compute_multiplicity(const Complex& x);
 
     void deflate(const Type& root, int m = 1);
     void deflate_conj(const Complex& root, int m = 1);
 
     std::vector<Complex> solve();
     Roots solve_with_multiplicities();
+    Roots solve_with_implicit_deflation();
+
+    void solve_quadratic();
+    Roots solve_cases();
 };
 }
 
 /*
+ * расчёт кратности!
+ * логика расчёта!
+ * расчёты
+ *
 Перспективы повышения точности:
-    - сначала искать реальные корни, потом мнимые;
     - вычисление значений полинома в точках: f(x);
     - вычисление производных: f'(x), f''(x), ...;
     - стабильное нахождение кратности корня: m;

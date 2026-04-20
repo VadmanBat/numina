@@ -86,7 +86,7 @@ void test(const std::function<double(double)>& h) {
 
 #include "numina/classes/polynomial/include/numina/polynomial.h"
 #include "numina/classes/poly-solver/include/numina/poly-solver.h"
-
+// 4 10 3
 int main(int argc, char* argv[]) {
     const Polynomial p1({1, -2});
     const Polynomial p2({1, -6});
@@ -96,22 +96,17 @@ int main(int argc, char* argv[]) {
     //Polynomial mul(p1 * p2 * p2 * p3 * p3 * p3 * p4 * p4 * p4 * p4);
     Polynomial mul(p1 * p2 * p3 * p4 * p1 * p1 * p2 * p2 * p2 * p3 * p2);
 
+    /*
     std::set<int> m;
-    for (int i = -1e1; i <= 1e1; ++i) {
-        auto x = 6 + i / 1e7; // 2, 1e6, 1e8
-        if (auto v = mul.__computeMultiplicity(x); v == 1+1)
+    for (int i = -1e7; i <= 1e7; ++i) {
+        auto x = 2 + i / 1e8; // 2, 1e6, 1e8
+        if (auto v = mul.computeMultiplicity(x); v == 3)
             m.insert(v);
         else {
             std::cout << "m(" << x << ") = " << v << '\n';
-            auto mmm = mul.__computeMultiplicity(x, true);
-
-            //std::cout << "x = " << x << ", m = " << mul.__computeMultiplicity(x) << '\n';
             for (int i = 1; i <= 5; ++i) {
                 std::cout << std::fixed << std::setprecision(20);
                 std::cout << "m = " << i << ", f(x, m) = " << mul.multiplicity(x, i) << '\n';
-                std::cout << "m = " << i << ", f(x, m) = " << mul.multiplicity((long double)(x), i) << '\n';
-                std::cout << "m = " << i << ", f(x, m) = " << mul.lag(x, i) << '\n';
-                std::cout << "m = " << i << ", f(x, m) = " << mul.lag((long double)(x), i) << '\n';
             }
         }
         //mul.computeMultiplicity(x);
@@ -120,7 +115,7 @@ int main(int argc, char* argv[]) {
     for (auto mmm : m)
         std::cout << mmm << ' ';
     std::cout << '\n';
-    return 0;
+    return 0;*/
     //return 0;
     //Polynomial mul(p1 * p2 * p3);
 
