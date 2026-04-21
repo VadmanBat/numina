@@ -78,6 +78,11 @@ private:
     void solve_with_multiplicities();
     void solve_with_implicit_deflation();
 
+    std::vector<std::pair<Complex, std::size_t>> found;
+    Complex laguerre(Complex x) {}
+    Complex newton(Complex x, std::size_t m) {}
+
+    void solve_general_case();
     void solve_quadratic_case();
     void solve_cases();
 };
