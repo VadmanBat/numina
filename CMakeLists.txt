@@ -28,12 +28,12 @@ add_executable(${PROJECT_NAME}
         numina/classes/polynomial/src/divmod.cpp
         numina/classes/polynomial/src/gcd.cpp
 
-        numina/classes/poly-solver/src/internal/analytical.cpp
-        numina/classes/poly-solver/src/internal/calculate.cpp
-        numina/classes/poly-solver/src/internal/deflate.cpp
-        numina/classes/poly-solver/src/internal/solve.cpp
-        numina/classes/poly-solver/src/internal/state.cpp
-        numina/classes/poly-solver/src/solve.cpp
+        numina/classes/poly-solver/src/solve/poly-solver.cpp
+        numina/classes/poly-solver/src/core/calculate.cpp
+        numina/classes/poly-solver/src/core/deflate.cpp
+        numina/classes/poly-solver/src/methods/laguerre.cpp
+        numina/classes/poly-solver/src/core/prepare.cpp
+        numina/classes/poly-solver/src/solve/solve-api.cpp
 
         numina/classes/quadratic-deriv-poly/src/quadratic-deriv-poly.cpp
 )
