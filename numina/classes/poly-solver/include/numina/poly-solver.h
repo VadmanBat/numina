@@ -3,6 +3,7 @@
 #include "numina/polynomial.h"
 
 #include <vector>
+#include <map>
 #include <complex>
 #include <limits>
 #include <utility>
@@ -53,6 +54,7 @@ private:
     Type* c_d2 = nullptr;
 
     std::vector<Polynomial> df;
+    std::multimap<std::size_t, Complex> found;
 
     Roots result;
 
@@ -78,9 +80,10 @@ private:
     void solve_with_multiplicities(); // test-legacy
     void solve_with_implicit_deflation(); // test-legacy
 
-    std::vector<std::pair<Complex, std::size_t>> found;
-    Complex laguerre(Complex x) {}
-    Complex newton(Complex x, std::size_t m) {}
+    Complex polish_implicit_laguerre(Complex x) {}
+    Complex polish_explicit_laguerre(Complex x) {}
+    Complex polish_implicit_newton(Complex x, std::size_t m);
+    Complex polish_explicit_newton(Complex x, std::size_t m) const;
 
     void solve_general_case();
     void solve_quadratic_case();

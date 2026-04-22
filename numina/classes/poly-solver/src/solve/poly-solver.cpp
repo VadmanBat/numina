@@ -4,19 +4,19 @@ namespace numina {
 void PolySolver::solve_general_case() {
     std::size_t m_eff = degree;
     while (m_eff != 0) {
-        auto x = laguerre(Complex(-1.0, -1.0));
+        auto x = polish_implicit_laguerre(Complex(-1.0, -1.0));
         auto m = df[0].computeMultiplicity(x);
         if (m > 2)
             for (std::size_t i = df.size() - 1; i < m; ++i)
                 df.emplace_back(df[i].derivative());
-        x = newton(x, m);
+        x = polish_implicit_newton(x, m);
 
-        found.emplace_back(x, m);
+        found.emplace(m, x);
         m_eff -= m;
 
         if (std::abs(x.imag()) > E1 * std::abs(x)) {
             Complex conj_x = std::conj(x);
-            found.emplace_back(conj_x, m);
+            found.emplace(m, conj_x);
             m_eff -= m;
 
             result.second.emplace_back(x, m);

@@ -79,5 +79,6 @@ void PolySolver::prepare(Polynomial&& poly) {
 
 void PolySolver::clear() {
     df.clear();
+    found.clear();
 }
 }
