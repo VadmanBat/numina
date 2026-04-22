@@ -31,10 +31,10 @@ public:
     Roots solveWithMultiplicities(const Polynomial& poly);
     Roots solveWithMultiplicities(Polynomial&& poly);
 
-    Roots solveWithImplicitDeflation(const std::vector<Type>& coefficients);
-    Roots solveWithImplicitDeflation(std::vector<Type>&& coefficients);
-    Roots solveWithImplicitDeflation(const Polynomial& poly);
-    Roots solveWithImplicitDeflation(Polynomial&& poly);
+    Roots solveWithImplicitDeflation(const std::vector<Type>& coefficients); // test-legacy
+    Roots solveWithImplicitDeflation(std::vector<Type>&& coefficients); // test-legacy
+    Roots solveWithImplicitDeflation(const Polynomial& poly); // test-legacy
+    Roots solveWithImplicitDeflation(Polynomial&& poly); // test-legacy
 
 private:
     inline static const Type E1                    = std::sqrt(std::numeric_limits<Type>::epsilon());
@@ -70,13 +70,13 @@ private:
     [[nodiscard]] Complex d1(const Complex& x) const;
     [[nodiscard]] Complex d2(const Complex& x) const;
 
-    std::size_t compute_multiplicity(const Complex& x);
+    std::size_t compute_multiplicity(const Complex& x); // test-legacy
     void deflate(const Type& root, int m = 1);
     void deflate_conj(const Complex& root, int m = 1);
 
-    std::vector<Complex> solve();
-    void solve_with_multiplicities();
-    void solve_with_implicit_deflation();
+    std::vector<Complex> solve(); // test-legacy
+    void solve_with_multiplicities(); // test-legacy
+    void solve_with_implicit_deflation(); // test-legacy
 
     std::vector<std::pair<Complex, std::size_t>> found;
     Complex laguerre(Complex x) {}
