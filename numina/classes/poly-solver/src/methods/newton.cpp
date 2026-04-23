@@ -6,43 +6,59 @@ PolySolver::Complex PolySolver::polish_explicit_newton(Complex x, const std::siz
     const auto& g  = df[m - 1];
     const auto& dg = df[m];
 
-    Complex gx = g(x);
-    for (std::size_t i = 0; i < NEWTON_MAX_ITER; ++i) {
-        Complex step = gx / dg(x);
-        x            -= step;
-        gx           = g(x);
+    Complex gx    = g(x);
+    Type prev_abs = std::abs(gx);
+    if (prev_abs == 0)
+        return x;
 
-        if (std::abs(step) < E1 * (Type(1.0) + std::abs(x)))
-            break;
+    for (std::size_t i = 0; i < NEWTON_MAX_ITER; ++i) {
+        Complex x_new      = x - gx / dg(x);
+        Complex gx_new     = g(x_new);
+        const Type new_abs = std::abs(gx_new);
+
+        if (new_abs >= prev_abs)
+            return x;
+
+        x        = x_new;
+        gx       = gx_new;
+        prev_abs = new_abs;
+
+        if (new_abs == 0)
+            return x;
     }
 
     return x;
 }
 
-PolySolver::Complex PolySolver::polish_implicit_newton(Complex x, const std::size_t m) {
+PolySolver::Complex PolySolver::polish_implicit_newton(Complex x, const std::size_t m) const {
     const auto& g  = df[m - 1];
     const auto& dg = df[m];
 
     std::vector<std::pair<std::size_t, Complex>> roots(found.lower_bound(m), found.end());
 
-    Complex gx = g(x);
-    for (std::size_t i = 0; i < NEWTON_MAX_ITER; ++i) {
-        Complex dg_val = dg(x);
+    Complex gx    = g(x);
+    Type prev_abs = std::abs(gx);
+    if (prev_abs == 0)
+        return x;
 
+    for (std::size_t i = 0; i < NEWTON_MAX_ITER; ++i) {
         Complex S(0.0);
         for (const auto& [mu, r] : roots)
             S += static_cast<Type>(mu - m + 1) / (x - r);
 
-        Complex denom = dg_val - gx * S;
-        if (std::abs(denom) < E2)
-            break;
+        Complex x_new      = x - gx / (dg(x) - gx * S);
+        Complex gx_new     = g(x_new);
+        const Type new_abs = std::abs(gx_new);
 
-        Complex step = gx / denom;
-        x            -= step;
-        gx           = g(x);
+        if (new_abs >= prev_abs)
+            return x;
 
-        if (std::abs(step) < E1 * (Type(1.0) + std::abs(x)))
-            break;
+        x        = x_new;
+        gx       = gx_new;
+        prev_abs = new_abs;
+
+        if (new_abs == 0)
+            return x;
     }
 
     return x;

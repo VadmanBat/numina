@@ -82,7 +82,7 @@ private:
 
     Complex polish_implicit_laguerre(Complex x) {}
     Complex polish_explicit_laguerre(Complex x) {}
-    Complex polish_implicit_newton(Complex x, std::size_t m);
+    Complex polish_implicit_newton(Complex x, std::size_t m) const;
     Complex polish_explicit_newton(Complex x, std::size_t m) const;
 
     void solve_general_case();
