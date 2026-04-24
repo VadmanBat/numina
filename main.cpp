@@ -86,7 +86,7 @@ void test(const std::function<double(double)>& h) {
 
 #include "numina/classes/polynomial/include/numina/polynomial.h"
 #include "numina/classes/poly-solver/include/numina/poly-solver.h"
-// 4 10 3
+// 4 10 3.75
 int main(int argc, char* argv[]) {
     const Polynomial p1({1, -2});
     const Polynomial p2({1, -6});

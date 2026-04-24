@@ -1,6 +1,55 @@
 #include "numina/poly-solver.h"
+
 // Created by Vadim on 21.08.2025.
 namespace numina {
+PolySolver::Complex PolySolver::polish_explicit_laguerre(Complex x) const {
+    Complex fx = f(x);
+    for (std::size_t i = 0; i < LAGUERRE_MAX_ITER; ++i) {
+        if (std::abs(fx) < E1 * std::abs(x))
+            return x;
+
+        const Complex d1fx         = d1(x);
+        const Complex b            = static_cast<Type>(degree - 1) * d1fx;
+        const Complex discriminant = std::sqrt(b * b - static_cast<Type>(degree * (degree - 1)) * fx * d2(x));
+        const Complex a1           = d1fx - discriminant;
+        const Complex a2           = d1fx + discriminant;
+
+        x  -= static_cast<Type>(degree) * fx / (std::abs(a1) > std::abs(a2) ? a1 : a2);
+        fx = f(x);
+    }
+
+    return x;
+}
+
+PolySolver::Complex PolySolver::polish_implicit_laguerre(Complex x) const {
+    Complex fx = f(x);
+    for (std::size_t i = 0; i < LAGUERRE_MAX_ITER; ++i) {
+        if (std::abs(fx) < E1 * std::abs(x))
+            return x;
+
+        Complex S(0.0), T(0.0);
+        for (const auto& [mu, r] : found) {
+            const Complex den = x - r;
+            S                 += static_cast<Type>(mu) / den;
+            T                 += static_cast<Type>(mu) / den / den;
+        }
+
+        const Complex G0 = d1(x) / fx;
+        const Complex H0 = G0 * G0 - d2(x) / fx;
+        const Complex G  = G0 - S;
+        const Complex H  = H0 - T;
+        const Complex sd = std::sqrt(static_cast<Type>(degree * (degree - 1)) * H - G * G);
+        const Complex a1 = G + sd;
+        const Complex a2 = G - sd;
+
+        x  -= static_cast<Type>(degree) / (std::abs(a1) > std::abs(a2) ? a1 : a2);
+        fx = f(x);
+    }
+
+    return x;
+}
+
+// помойка
 std::vector<PolySolver::Complex> PolySolver::solve() {
     std::vector<Complex> roots;
     roots.reserve(degree);
@@ -155,8 +204,8 @@ void PolySolver::solve_with_implicit_deflation() {
                 if (std::abs(den) < E1)
                     den = Complex(E1, 0.0);
                 Complex inv = Type(1.0) / den;
-                S += static_cast<Type>(mu) * inv;
-                T += static_cast<Type>(mu) * inv * inv;
+                S           += static_cast<Type>(mu) * inv;
+                T           += static_cast<Type>(mu) * inv * inv;
             }
 
             G0 = d1fx / fx;
@@ -193,7 +242,7 @@ void PolySolver::solve_with_implicit_deflation() {
         // ==============================================
         // 3. Уточнение (МОДИФИЦИРОВАННЫЙ НЬЮТОН С implicit)
         // ==============================================
-        Complex root = x;
+        Complex root   = x;
         const auto& g  = df[m - 1];
         const auto& dg = df[m];
 
@@ -205,19 +254,22 @@ void PolySolver::solve_with_implicit_deflation() {
             // НЕЯВНАЯ ДЕФЛЯЦИЯ в уточнении
             Complex S(0.0);
             for (const auto& [r, mu] : found) {
-                if (mu < m) continue;
+                if (mu < m)
+                    continue;
                 Complex den = x - r;
-                S += static_cast<Type>(mu - m + 1) / den;
+                S           += static_cast<Type>(mu - m + 1) / den;
             }
 
-            Complex denom = dg_val - gx * S;          // ← implicit
-            if (std::abs(denom) < E2) break;
+            Complex denom = dg_val - gx * S; // ← implicit
+            if (std::abs(denom) < E2)
+                break;
 
-            Complex step = gx / denom;                // ← используем implicit!
-            x -= step;
-            gx = g(x);
+            Complex step = gx / denom; // ← используем implicit!
+            x            -= step;
+            gx           = g(x);
 
-            if (std::abs(step) < E1 * (Type(1.0) + std::abs(x))) break;
+            if (std::abs(step) < E1 * (Type(1.0) + std::abs(x)))
+                break;
         }
 
         root = x;
@@ -241,6 +293,7 @@ void PolySolver::solve_with_implicit_deflation() {
         }
     }
 }
+
 /*
 PolySolver::Roots PolySolver::solve_with_implicit_deflation() {
     Roots roots;

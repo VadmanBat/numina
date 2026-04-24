@@ -1,7 +1,37 @@
 #include "numina/poly-solver.h"
 // Created by Vadim on 19.04.2026.
 namespace numina {
-void PolySolver::solve_general_case() {
+void PolySolver::solve_explicit_general_case() {
+    std::size_t m_eff = degree;
+    while (m_eff != 0) {
+        auto x = polish_explicit_laguerre(Complex(-1.0, -1.0));
+        auto m = df[0].computeMultiplicity(x);
+        if (m > 2)
+            for (std::size_t i = df.size() - 1; i < m; ++i)
+                df.emplace_back(df[i].derivative());
+        x = polish_explicit_newton(x, m);
+
+        found.emplace(m, x);
+        m_eff -= m;
+
+        if (std::abs(x.imag()) > E1 * std::abs(x)) {
+            Complex conj_x = std::conj(x);
+            found.emplace(m, conj_x);
+            m_eff -= m;
+
+            result.second.emplace_back(x, m);
+            result.second.emplace_back(conj_x, m);
+
+            deflate_conj(x, m);
+        }
+        else {
+            result.first.emplace_back(x.real(), m);
+            deflate(x.real(), m);
+        }
+    }
+}
+
+void PolySolver::solve_implicit_general_case() {
     std::size_t m_eff = degree;
     while (m_eff != 0) {
         auto x = polish_implicit_laguerre(Complex(-1.0, -1.0));
@@ -9,7 +39,7 @@ void PolySolver::solve_general_case() {
         if (m > 2)
             for (std::size_t i = df.size() - 1; i < m; ++i)
                 df.emplace_back(df[i].derivative());
-        x = polish_implicit_newton(x, m);
+        x = polish_explicit_newton(x, m);
 
         found.emplace(m, x);
         m_eff -= m;
@@ -75,8 +105,8 @@ void PolySolver::solve_cases() {
             solve_quadratic_case();
             break;
         default:
-            //solve_general_case();
-            solve_with_implicit_deflation();
+            solve_implicit_general_case();
+            //solve_with_implicit_deflation();
     }
 
     clear();
