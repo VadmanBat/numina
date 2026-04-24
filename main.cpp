@@ -138,7 +138,7 @@ int main(int argc, char* argv[]) {
     std::cout << "poly-solver-2:\n";
     std::cout << std::fixed << std::setprecision(20);
     numina::PolySolver x;
-    auto roots = x.solveWithImplicitDeflation(mul);
+    auto roots = x.solveWithMultiplicities(mul);
     for (auto [root, m] : roots.first)
         std::cout << root << ' ' << m << '\n';
     for (auto [root, m] : roots.second)
@@ -167,7 +167,7 @@ int main(int argc, char* argv[]) {
         numina::PolySolver x;
         for (int i = 0; i < 1e5; ++i) {
             //std::cout << i << '\n';
-            auto roots = x.solveWithImplicitDeflation(mul);
+            auto roots = x.solveWithMultiplicities(mul);
         }
 
         auto end = std::chrono::high_resolution_clock::now();

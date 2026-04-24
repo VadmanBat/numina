@@ -1,5 +1,4 @@
 #include "numina/poly-solver.h"
-
 // Created by Vadim on 22.04.2026.
 namespace numina {
 PolySolver::Complex PolySolver::polish_explicit_newton(Complex x, const std::size_t m) const {

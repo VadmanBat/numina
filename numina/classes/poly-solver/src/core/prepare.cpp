@@ -46,13 +46,6 @@ void PolySolver::prepare() {
     df.emplace_back(coeffs);
     df.emplace_back(coeffs_d1);
     df.emplace_back(coeffs_d2);
-
-    /*nums.reserve(degree);
-    dens.reserve(degree);
-    auto num = df[1] * df[1];
-    auto den = num - df[0] * df[2];
-    nums.emplace_back(std::move(num));
-    dens.emplace_back(std::move(den));*/
 }
 
 void PolySolver::prepare(const std::vector<Type>& coefficients) {
@@ -80,5 +73,29 @@ void PolySolver::prepare(Polynomial&& poly) {
 void PolySolver::clear() {
     df.clear();
     found.clear();
+}
+
+std::vector<PolySolver::Complex> PolySolver::get_vector() {
+    std::size_t total = 0;
+    for (const auto& p : answer.first)
+        total += p.second;
+    for (const auto& p : answer.second)
+        total += p.second;
+
+    std::vector<Complex> res(total);
+    auto ptr = res.data();
+
+    for (const auto& [val, mult] : answer.first) {
+        std::fill_n(ptr, mult, Complex(val, 0));
+        ptr += mult;
+    }
+    for (const auto& [val, mult] : answer.second) {
+        std::fill_n(ptr, mult, val);
+        ptr += mult;
+    }
+
+    answer.first.clear();
+    answer.second.clear();
+    return res;
 }
 }

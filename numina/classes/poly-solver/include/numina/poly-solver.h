@@ -32,11 +32,6 @@ public:
     Roots solveWithMultiplicities(const Polynomial& poly);
     Roots solveWithMultiplicities(Polynomial&& poly);
 
-    Roots solveWithImplicitDeflation(const std::vector<Type>& coefficients); // test-legacy
-    Roots solveWithImplicitDeflation(std::vector<Type>&& coefficients); // test-legacy
-    Roots solveWithImplicitDeflation(const Polynomial& poly); // test-legacy
-    Roots solveWithImplicitDeflation(Polynomial&& poly); // test-legacy
-
 private:
     inline static const Type E1                    = std::sqrt(std::numeric_limits<Type>::epsilon());
     inline static const Type E2                    = std::sqrt(E1);
@@ -56,9 +51,7 @@ private:
     std::vector<Polynomial> df;
     std::multimap<std::size_t, Complex> found;
 
-    Roots result;
-
-    void compute_derivative() const;
+    Roots answer;
 
     void trim_leading_zeros() noexcept;
     void prepare();
@@ -68,17 +61,14 @@ private:
     void prepare(Polynomial&& poly);
     void clear();
 
-    [[nodiscard]] Complex f(const Complex& x) const;
-    [[nodiscard]] Complex d1(const Complex& x) const;
-    [[nodiscard]] Complex d2(const Complex& x) const;
+    void compute_derivative() const;
 
-    std::size_t compute_multiplicity(const Complex& x); // test-legacy
+    [[nodiscard]] [[gnu::always_inline]] Complex f(const Complex& x) const;
+    [[nodiscard]] [[gnu::always_inline]] Complex d1(const Complex& x) const;
+    [[nodiscard]] [[gnu::always_inline]] Complex d2(const Complex& x) const;
+
     void deflate(const Type& root, std::size_t m = 1);
     void deflate_conj(const Complex& root, std::size_t m = 1);
-
-    std::vector<Complex> solve(); // test-legacy
-    void solve_with_multiplicities(); // test-legacy
-    void solve_with_implicit_deflation(); // test-legacy
 
     [[nodiscard]] Complex polish_explicit_laguerre(Complex x) const;
     [[nodiscard]] Complex polish_implicit_laguerre(Complex x) const;
@@ -89,17 +79,39 @@ private:
     void solve_implicit_general_case();
     void solve_quadratic_case();
     void solve_cases();
+
+    std::vector<Complex> get_vector();
 };
+
+inline PolySolver::Complex PolySolver::f(const Complex& x) const {
+    Complex result = c[0];
+    for (std::size_t i = 1; i <= degree; ++i)
+        (result *= x) += c[i];
+    return result;
+}
+
+inline PolySolver::Complex PolySolver::d1(const Complex& x) const {
+    Complex result = c_d1[0];
+    for (std::size_t i = 1; i < degree; ++i)
+        (result *= x) += c_d1[i];
+    return result;
+}
+
+inline PolySolver::Complex PolySolver::d2(const PolySolver::Complex& x) const {
+    const auto n   = degree - 1;
+    Complex result = c_d2[0];
+    for (std::size_t i = 1; i < n; ++i)
+        (result *= x) += c_d2[i];
+    return result;
+}
 }
 
 /*
- * расчёт кратности!
- * логика расчёта!
+ *
  * расчёты
  *
 Перспективы повышения точности:
     - вычисление значений полинома в точках: f(x);
     - вычисление производных: f'(x), f''(x), ...;
-    - стабильное нахождение кратности корня: m;
     - дефляция основного полинома: f(x) /= (x - r)^m
 */
