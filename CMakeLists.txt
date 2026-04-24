@@ -28,7 +28,6 @@ add_executable(${PROJECT_NAME}
         numina/classes/polynomial/src/divmod.cpp
         numina/classes/polynomial/src/gcd.cpp
 
-        numina/classes/poly-solver/src/core/evaluate.cpp
         numina/classes/poly-solver/src/core/deflate.cpp
         numina/classes/poly-solver/src/core/prepare.cpp
         numina/classes/poly-solver/src/methods/laguerre.cpp
