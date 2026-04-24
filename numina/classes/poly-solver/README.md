@@ -160,7 +160,7 @@ $$
 
 4. **Горнер, У. Дж.** (Horner, W. G.)  
    A new method of solving numerical equations of all orders, by continuous approximation.  
-   *Philosophical Transactions of the Royal Society of London*, **109** (1819), pp. 308–335.
+   *Philosophical Transactions of the Royal Society of London*, **109** (1819), pp. 308–335.  
    [Оригинальная статья](https://dn710105.ca.archive.org/0/items/jstor-107508/107508.pdf)
 
 5. **Мэли, Дж. Х.** (Maehly, J. H.)  
