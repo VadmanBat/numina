@@ -5,25 +5,25 @@ namespace numina {
 std::vector <PolySolver::Complex> PolySolver::solve(const std::vector <Type>& coefficients, const Method method) {
     prepare(coefficients);
     solve_cases(method);
-    return get_vector();
+    return extract_answer();
 }
 
 std::vector <PolySolver::Complex> PolySolver::solve(std::vector <Type>&& coefficients, const Method method) {
     prepare(std::move(coefficients));
     solve_cases(method);
-    return get_vector();
+    return extract_answer();
 }
 
 std::vector <PolySolver::Complex> PolySolver::solve(const Polynomial& poly, const Method method) {
     prepare(poly);
     solve_cases(method);
-    return get_vector();
+    return extract_answer();
 }
 
 std::vector <PolySolver::Complex> PolySolver::solve(Polynomial&& poly, const Method method) {
     prepare(std::move(poly));
     solve_cases(method);
-    return get_vector();
+    return extract_answer();
 }
 
 PolySolver::Roots PolySolver::solveWithMultiplicities(const std::vector <Type>& coefficients, const Method method) {

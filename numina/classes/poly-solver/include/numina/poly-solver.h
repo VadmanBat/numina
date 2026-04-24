@@ -83,7 +83,7 @@ private:
     void solve_quadratic_case() noexcept;
     void solve_cases(Method method) noexcept;
 
-    std::vector<Complex> get_vector() noexcept;
+    std::vector<Complex> extract_answer() noexcept;
 };
 
 inline PolySolver::Complex PolySolver::f(const Complex& x) const noexcept {

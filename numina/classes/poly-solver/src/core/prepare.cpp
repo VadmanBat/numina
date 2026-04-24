@@ -75,7 +75,7 @@ void PolySolver::clear() noexcept {
     found.clear();
 }
 
-std::vector<PolySolver::Complex> PolySolver::get_vector() noexcept {
+std::vector<PolySolver::Complex> PolySolver::extract_answer() noexcept {
     std::size_t total = 0;
     for (const auto& p : answer.first)
         total += p.second;

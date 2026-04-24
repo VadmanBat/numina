@@ -1,7 +1,7 @@
 #include "numina/poly-solver.h"
 // Created by Vadim on 13.07.2025.
-namespace numina {
 /*
+namespace numina {
 PolySolver::Complex PolySolver::f(const Complex& x) const {
     Complex result = c[0];
     for (std::size_t i = 1; i <= degree; ++i)
@@ -23,5 +23,5 @@ PolySolver::Complex PolySolver::d2(const Complex& x) const {
         (result *= x) += c_d2[i];
     return result;
 }
-*/
 }
+*/
