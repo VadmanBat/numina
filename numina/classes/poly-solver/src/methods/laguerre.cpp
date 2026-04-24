@@ -30,18 +30,18 @@ PolySolver::Complex PolySolver::polish_implicit_laguerre(Complex x) const {
         for (const auto& [mu, r] : found) {
             const Complex den = x - r;
             S                 += static_cast<Type>(mu) / den;
-            T                 += static_cast<Type>(mu) / den / den;
+            T                 += static_cast<Type>(mu) / (den * den);
         }
 
         const Complex G0 = d1(x) / fx;
         const Complex H0 = G0 * G0 - d2(x) / fx;
         const Complex G  = G0 - S;
         const Complex H  = H0 - T;
-        const Complex sd = std::sqrt(static_cast<Type>(degree * (degree - 1)) * H - G * G);
+        const Complex sd = std::sqrt(static_cast<Type>(m_eff * (m_eff - 1)) * H - G * G);
         const Complex a1 = G + sd;
         const Complex a2 = G - sd;
 
-        x  -= static_cast<Type>(degree) / (std::abs(a1) > std::abs(a2) ? a1 : a2);
+        x  -= static_cast<Type>(m_eff) / (std::abs(a1) > std::abs(a2) ? a1 : a2);
         fx = f(x);
     }
 

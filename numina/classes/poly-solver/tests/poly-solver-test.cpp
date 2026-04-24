@@ -43,7 +43,7 @@ void run_group(const std::string& filename, numina::PolySolver& solver) {
             file >> coeffs[i];
         }
 
-        auto roots = solver.solveWithImplicitDeflation(coeffs);
+        auto roots = solver.solveWithMultiplicities(coeffs);
 
         double max_err = 0.0;
         double sum_err = 0.0;
@@ -93,11 +93,11 @@ int main() {
         "random.txt",
         "complex-roots.txt",
         "wilkinson.txt",
-        //"multiple-roots.txt",
+        "multiple-roots.txt",
         "close-roots.txt",
         "close-cluster.txt",
-        //"small-coeffs.txt",
-        //"large-scale.txt",
+        "small-coeffs.txt",
+        "large-scale.txt",
         //"large-magnitude.txt",
         //"extreme-coeffs.txt",
     };

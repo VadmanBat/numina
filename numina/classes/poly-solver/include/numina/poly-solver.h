@@ -38,7 +38,7 @@ private:
     static constexpr std::size_t LAGUERRE_MAX_ITER = 30;
     static constexpr std::size_t NEWTON_MAX_ITER   = 30;
 
-    std::size_t degree = 0;
+    std::size_t degree = 0, m_eff = 0;
 
     std::vector<Type> coeffs;
     std::vector<Type> coeffs_d1;
