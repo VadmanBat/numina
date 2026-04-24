@@ -73,8 +73,8 @@ private:
     [[nodiscard]] Complex d2(const Complex& x) const;
 
     std::size_t compute_multiplicity(const Complex& x); // test-legacy
-    void deflate(const Type& root, int m = 1);
-    void deflate_conj(const Complex& root, int m = 1);
+    void deflate(const Type& root, std::size_t m = 1);
+    void deflate_conj(const Complex& root, std::size_t m = 1);
 
     std::vector<Complex> solve(); // test-legacy
     void solve_with_multiplicities(); // test-legacy

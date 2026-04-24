@@ -11,7 +11,7 @@ void PolySolver::compute_derivative() const {
     c_d1[n] = power * c[n];
 }
 
-void PolySolver::deflate(const Type& root, const int m) {
+void PolySolver::deflate(const Type& root, const std::size_t m) {
     if ((degree -= m) == 0)
         return;
 
@@ -22,7 +22,7 @@ void PolySolver::deflate(const Type& root, const int m) {
     compute_derivative();
 }
 
-void PolySolver::deflate_conj(const Complex& root, const int m) {
+void PolySolver::deflate_conj(const Complex& root, const std::size_t m) {
     if ((degree -= 2 * m) == 0)
         return;
 
@@ -31,7 +31,7 @@ void PolySolver::deflate_conj(const Complex& root, const int m) {
     const auto c1 = 2 * real;
     const auto c2 = real * real + imag * imag;
 
-    for (int k = 0; k < m; ++k) {
+    for (std::size_t k = 0; k < m; ++k) {
         c[1] += c1 * c[0];
         for (std::size_t i = 2; i <= degree; ++i)
             c[i] += c1 * c[i - 1] - c2 * c[i - 2];
