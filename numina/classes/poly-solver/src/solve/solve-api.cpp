@@ -1,6 +1,5 @@
 #include "numina/poly-solver.h"
 // Created by Vadim on 13.07.2025.
-#include <iostream>
 namespace numina {
 std::vector <PolySolver::Complex> PolySolver::solve(const std::vector <Type>& coefficients, const Method method) {
     prepare(coefficients);
