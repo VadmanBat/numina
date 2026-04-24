@@ -1,4 +1,5 @@
 #include "numina/poly-solver.h"
+
 // Created by Vadim on 19.04.2026.
 namespace numina {
 void PolySolver::solve_explicit_general_case() noexcept {
@@ -79,7 +80,7 @@ void PolySolver::solve_quadratic_case() noexcept {
 #undef c
 }
 
-void PolySolver::solve_cases() noexcept {
+void PolySolver::solve_cases(const Method method) noexcept {
     std::size_t zero_mult = 0;
     while (zero_mult < degree && coeffs[degree - zero_mult] == 0)
         ++zero_mult;
@@ -100,7 +101,7 @@ void PolySolver::solve_cases() noexcept {
             solve_quadratic_case();
             break;
         default:
-            solve_implicit_general_case();
+            method == Method::Explicit ? solve_explicit_general_case() : solve_implicit_general_case();
     }
 
     clear();

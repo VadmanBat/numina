@@ -13,24 +13,27 @@ class PolySolver {
 public:
     using Type        = double;
     using Complex     = std::complex<Type>;
-    using LongType    = long double;
-    using LongComplex = std::complex<LongType>;
     using Roots       = std::pair<
         std::vector<std::pair<Type, std::size_t>>,
         std::vector<std::pair<Complex, std::size_t>>
     >;
 
+    enum class Method : bool {
+        Explicit = false,
+        Implicit = true
+    };
+
     PolySolver() = default;
 
-    std::vector<Complex> solve(const std::vector<Type>& coefficients);
-    std::vector<Complex> solve(std::vector<Type>&& coefficients);
-    std::vector<Complex> solve(const Polynomial& poly);
-    std::vector<Complex> solve(Polynomial&& poly);
+    std::vector<Complex> solve(const std::vector<Type>& coefficients, Method method = Method::Explicit);
+    std::vector<Complex> solve(std::vector<Type>&& coefficients, Method method = Method::Explicit);
+    std::vector<Complex> solve(const Polynomial& poly, Method method = Method::Explicit);
+    std::vector<Complex> solve(Polynomial&& poly, Method method = Method::Explicit);
 
-    Roots solveWithMultiplicities(const std::vector<Type>& coefficients);
-    Roots solveWithMultiplicities(std::vector<Type>&& coefficients);
-    Roots solveWithMultiplicities(const Polynomial& poly);
-    Roots solveWithMultiplicities(Polynomial&& poly);
+    Roots solveWithMultiplicities(const std::vector<Type>& coefficients, Method method = Method::Explicit);
+    Roots solveWithMultiplicities(std::vector<Type>&& coefficients, Method method = Method::Explicit);
+    Roots solveWithMultiplicities(const Polynomial& poly, Method method = Method::Explicit);
+    Roots solveWithMultiplicities(Polynomial&& poly, Method method = Method::Explicit);
 
 private:
     inline static const Type E1                    = std::sqrt(std::numeric_limits<Type>::epsilon());
@@ -78,7 +81,7 @@ private:
     void solve_explicit_general_case() noexcept;
     void solve_implicit_general_case() noexcept;
     void solve_quadratic_case() noexcept;
-    void solve_cases() noexcept;
+    void solve_cases(Method method) noexcept;
 
     std::vector<Complex> get_vector() noexcept;
 };
@@ -97,7 +100,7 @@ inline PolySolver::Complex PolySolver::d1(const Complex& x) const noexcept {
     return result;
 }
 
-inline PolySolver::Complex PolySolver::d2(const PolySolver::Complex& x) const noexcept {
+inline PolySolver::Complex PolySolver::d2(const Complex& x) const noexcept {
     const auto n   = degree - 1;
     Complex result = c_d2[0];
     for (std::size_t i = 1; i < n; ++i)
@@ -107,8 +110,8 @@ inline PolySolver::Complex PolySolver::d2(const PolySolver::Complex& x) const no
 }
 
 /*
- *
- * расчёты
+ * 1. Разделить производную на m!
+ * 2. Вычислять производные более точно
  *
 Перспективы повышения точности:
     - вычисление значений полинома в точках: f(x);

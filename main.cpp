@@ -167,7 +167,7 @@ int main(int argc, char* argv[]) {
         numina::PolySolver x;
         for (int i = 0; i < 1e5; ++i) {
             //std::cout << i << '\n';
-            auto roots = x.solveWithMultiplicities(mul);
+            auto roots = x.solveWithMultiplicities(mul, numina::PolySolver::Method::Explicit);
         }
 
         auto end = std::chrono::high_resolution_clock::now();
@@ -181,7 +181,7 @@ int main(int argc, char* argv[]) {
         numina::PolySolver x;
         for (int i = 0; i < 1e5; ++i) {
             //std::cout << i << '\n';
-            auto roots = x.solve(mul);
+            auto roots = x.solve(mul, numina::PolySolver::Method::Implicit);
         }
 
         auto end = std::chrono::high_resolution_clock::now();
