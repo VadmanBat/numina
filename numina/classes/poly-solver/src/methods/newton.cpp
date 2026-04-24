@@ -1,7 +1,7 @@
 #include "numina/poly-solver.h"
 // Created by Vadim on 22.04.2026.
 namespace numina {
-PolySolver::Complex PolySolver::polish_explicit_newton(Complex x, const std::size_t m) const {
+PolySolver::Complex PolySolver::polish_explicit_newton(Complex x, const std::size_t m) const noexcept {
     const auto& g  = df[m - 1];
     const auto& dg = df[m];
 
@@ -29,7 +29,7 @@ PolySolver::Complex PolySolver::polish_explicit_newton(Complex x, const std::siz
     return x;
 }
 
-PolySolver::Complex PolySolver::polish_implicit_newton(Complex x, const std::size_t m) const {
+PolySolver::Complex PolySolver::polish_implicit_newton(Complex x, const std::size_t m) const noexcept {
     const auto& g  = df[m - 1];
     const auto& dg = df[m];
 

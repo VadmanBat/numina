@@ -70,12 +70,12 @@ void PolySolver::prepare(Polynomial&& poly) {
     prepare();
 }
 
-void PolySolver::clear() {
+void PolySolver::clear() noexcept {
     df.clear();
     found.clear();
 }
 
-std::vector<PolySolver::Complex> PolySolver::get_vector() {
+std::vector<PolySolver::Complex> PolySolver::get_vector() noexcept {
     std::size_t total = 0;
     for (const auto& p : answer.first)
         total += p.second;

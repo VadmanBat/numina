@@ -10,8 +10,8 @@ public:
     using LongType    = long double;
     using LongComplex = std::complex<LongType>;
     using Roots       = std::pair<
-        std::vector<std::pair<Type, int>>,
-        std::vector<std::pair<Complex, int>>
+        std::vector<std::pair<Type, std::size_t>>,
+        std::vector<std::pair<Complex, std::size_t>>
     >;
 
 private:

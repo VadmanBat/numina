@@ -1,7 +1,7 @@
 #include "numina/poly-solver.h"
 // Created by Vadim on 21.08.2025.
 namespace numina {
-PolySolver::Complex PolySolver::polish_explicit_laguerre(Complex x) const {
+PolySolver::Complex PolySolver::polish_explicit_laguerre(Complex x) const noexcept {
     Complex fx = f(x);
     for (std::size_t i = 0; i < LAGUERRE_MAX_ITER; ++i) {
         if (std::abs(fx) < E1 * std::abs(x))
@@ -20,7 +20,7 @@ PolySolver::Complex PolySolver::polish_explicit_laguerre(Complex x) const {
     return x;
 }
 
-PolySolver::Complex PolySolver::polish_implicit_laguerre(Complex x) const {
+PolySolver::Complex PolySolver::polish_implicit_laguerre(Complex x) const noexcept {
     Complex fx = f(x);
     for (std::size_t i = 0; i < LAGUERRE_MAX_ITER; ++i) {
         if (std::abs(fx) < E1 * std::abs(x))

@@ -1,7 +1,7 @@
 #include "numina/poly-solver.h"
 // Created by Vadim on 19.04.2026.
 namespace numina {
-void PolySolver::solve_explicit_general_case() {
+void PolySolver::solve_explicit_general_case() noexcept {
     while (degree != 0) {
         auto x = polish_explicit_laguerre(0);
         auto m = df[0].computeMultiplicity(x);
@@ -25,7 +25,7 @@ void PolySolver::solve_explicit_general_case() {
     }
 }
 
-void PolySolver::solve_implicit_general_case() {
+void PolySolver::solve_implicit_general_case() noexcept {
     m_eff = degree;
     while (m_eff != 0) {
         auto x = polish_implicit_laguerre(0);
@@ -51,7 +51,7 @@ void PolySolver::solve_implicit_general_case() {
     }
 }
 
-void PolySolver::solve_quadratic_case() {
+void PolySolver::solve_quadratic_case() noexcept {
 #define a coeffs[0]
 #define b coeffs[1]
 #define c coeffs[2]
@@ -79,7 +79,7 @@ void PolySolver::solve_quadratic_case() {
 #undef c
 }
 
-void PolySolver::solve_cases() {
+void PolySolver::solve_cases() noexcept {
     std::size_t zero_mult = 0;
     while (zero_mult < degree && coeffs[degree - zero_mult] == 0)
         ++zero_mult;

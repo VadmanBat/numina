@@ -16,8 +16,8 @@ public:
     using LongType    = long double;
     using LongComplex = std::complex<LongType>;
     using Roots       = std::pair<
-        std::vector<std::pair<Type, int>>,
-        std::vector<std::pair<Complex, int>>
+        std::vector<std::pair<Type, std::size_t>>,
+        std::vector<std::pair<Complex, std::size_t>>
     >;
 
     PolySolver() = default;
@@ -59,45 +59,45 @@ private:
     void prepare(std::vector<Type>&& coefficients);
     void prepare(const Polynomial& poly);
     void prepare(Polynomial&& poly);
-    void clear();
+    void clear() noexcept;
 
-    void compute_derivative() const;
+    void compute_derivative() const noexcept;
 
-    [[nodiscard]] [[gnu::always_inline]] Complex f(const Complex& x) const;
-    [[nodiscard]] [[gnu::always_inline]] Complex d1(const Complex& x) const;
-    [[nodiscard]] [[gnu::always_inline]] Complex d2(const Complex& x) const;
+    [[nodiscard]] [[gnu::always_inline]] Complex f(const Complex& x) const noexcept;
+    [[nodiscard]] [[gnu::always_inline]] Complex d1(const Complex& x) const noexcept;
+    [[nodiscard]] [[gnu::always_inline]] Complex d2(const Complex& x) const noexcept;
 
-    void deflate(const Type& root, std::size_t m = 1);
-    void deflate_conj(const Complex& root, std::size_t m = 1);
+    void deflate(const Type& root, std::size_t m = 1) noexcept;
+    void deflate_conj(const Complex& root, std::size_t m = 1) noexcept;
 
-    [[nodiscard]] Complex polish_explicit_laguerre(Complex x) const;
-    [[nodiscard]] Complex polish_implicit_laguerre(Complex x) const;
-    [[nodiscard]] Complex polish_explicit_newton(Complex x, std::size_t m) const;
-    [[nodiscard]] Complex polish_implicit_newton(Complex x, std::size_t m) const;
+    [[nodiscard]] Complex polish_explicit_laguerre(Complex x) const noexcept;
+    [[nodiscard]] Complex polish_implicit_laguerre(Complex x) const noexcept;
+    [[nodiscard]] Complex polish_explicit_newton(Complex x, std::size_t m) const noexcept;
+    [[nodiscard]] Complex polish_implicit_newton(Complex x, std::size_t m) const noexcept;
 
-    void solve_explicit_general_case();
-    void solve_implicit_general_case();
-    void solve_quadratic_case();
-    void solve_cases();
+    void solve_explicit_general_case() noexcept;
+    void solve_implicit_general_case() noexcept;
+    void solve_quadratic_case() noexcept;
+    void solve_cases() noexcept;
 
-    std::vector<Complex> get_vector();
+    std::vector<Complex> get_vector() noexcept;
 };
 
-inline PolySolver::Complex PolySolver::f(const Complex& x) const {
+inline PolySolver::Complex PolySolver::f(const Complex& x) const noexcept {
     Complex result = c[0];
     for (std::size_t i = 1; i <= degree; ++i)
         (result *= x) += c[i];
     return result;
 }
 
-inline PolySolver::Complex PolySolver::d1(const Complex& x) const {
+inline PolySolver::Complex PolySolver::d1(const Complex& x) const noexcept {
     Complex result = c_d1[0];
     for (std::size_t i = 1; i < degree; ++i)
         (result *= x) += c_d1[i];
     return result;
 }
 
-inline PolySolver::Complex PolySolver::d2(const PolySolver::Complex& x) const {
+inline PolySolver::Complex PolySolver::d2(const PolySolver::Complex& x) const noexcept {
     const auto n   = degree - 1;
     Complex result = c_d2[0];
     for (std::size_t i = 1; i < n; ++i)
