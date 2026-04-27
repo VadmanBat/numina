@@ -25,25 +25,25 @@ std::vector <PolySolver::Complex> PolySolver::solve(Polynomial&& poly, const Met
     return extract_answer();
 }
 
-PolySolver::Roots PolySolver::solveWithMultiplicities(const std::vector <Type>& coefficients, const Method method) {
+PolySolver::MultiRoots PolySolver::multisolve(const std::vector <Type>& coefficients, const Method method) {
     prepare(coefficients);
     solve_cases(method);
     return std::move(answer);
 }
 
-PolySolver::Roots PolySolver::solveWithMultiplicities(std::vector <Type>&& coefficients, const Method method) {
+PolySolver::MultiRoots PolySolver::multisolve(std::vector <Type>&& coefficients, const Method method) {
     prepare(std::move(coefficients));
     solve_cases(method);
     return std::move(answer);
 }
 
-PolySolver::Roots PolySolver::solveWithMultiplicities(const Polynomial& poly, const Method method) {
+PolySolver::MultiRoots PolySolver::multisolve(const Polynomial& poly, const Method method) {
     prepare(poly);
     solve_cases(method);
     return std::move(answer);
 }
 
-PolySolver::Roots PolySolver::solveWithMultiplicities(Polynomial&& poly, const Method method) {
+PolySolver::MultiRoots PolySolver::multisolve(Polynomial&& poly, const Method method) {
     prepare(std::move(poly));
     solve_cases(method);
     return std::move(answer);

@@ -94,7 +94,7 @@ int main(int argc, char* argv[]) {
     const Polynomial p4({1, -20});
 
     //Polynomial mul(p1 * p2 * p2 * p3 * p3 * p3 * p4 * p4 * p4 * p4);
-    Polynomial mul(p1 * p2 * p3 * p4 * p1 * p1 * p2 * p2 * p2 * p3 * p2);
+    Polynomial mul(p1 * p2 * p3 * p4 * p1 * p1 * p2 * p2 * p2 * p3 * p2 * 10000);
 
     /*
     std::set<int> m;
@@ -138,7 +138,7 @@ int main(int argc, char* argv[]) {
     std::cout << "poly-solver-2:\n";
     std::cout << std::fixed << std::setprecision(20);
     numina::PolySolver x;
-    auto roots = x.solveWithMultiplicities(mul);
+    auto roots = x.multisolve(mul);
     for (auto [root, m] : roots.first)
         std::cout << root << ' ' << m << '\n';
     for (auto [root, m] : roots.second)
@@ -167,7 +167,7 @@ int main(int argc, char* argv[]) {
         numina::PolySolver x;
         for (int i = 0; i < 1e5; ++i) {
             //std::cout << i << '\n';
-            auto roots = x.solveWithMultiplicities(mul, numina::PolySolver::Method::Explicit);
+            auto roots = x.multisolve(mul, numina::PolySolver::Method::Explicit);
         }
 
         auto end = std::chrono::high_resolution_clock::now();

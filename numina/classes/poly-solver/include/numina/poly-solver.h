@@ -11,9 +11,9 @@
 namespace numina {
 class PolySolver {
 public:
-    using Type        = double;
-    using Complex     = std::complex<Type>;
-    using Roots       = std::pair<
+    using Type       = double;
+    using Complex    = std::complex<Type>;
+    using MultiRoots = std::pair<
         std::vector<std::pair<Type, std::size_t>>,
         std::vector<std::pair<Complex, std::size_t>>
     >;
@@ -30,10 +30,10 @@ public:
     std::vector<Complex> solve(const Polynomial& poly, Method method = Method::Explicit);
     std::vector<Complex> solve(Polynomial&& poly, Method method = Method::Explicit);
 
-    Roots solveWithMultiplicities(const std::vector<Type>& coefficients, Method method = Method::Explicit);
-    Roots solveWithMultiplicities(std::vector<Type>&& coefficients, Method method = Method::Explicit);
-    Roots solveWithMultiplicities(const Polynomial& poly, Method method = Method::Explicit);
-    Roots solveWithMultiplicities(Polynomial&& poly, Method method = Method::Explicit);
+    MultiRoots multisolve(const std::vector<Type>& coefficients, Method method = Method::Explicit);
+    MultiRoots multisolve(std::vector<Type>&& coefficients, Method method = Method::Explicit);
+    MultiRoots multisolve(const Polynomial& poly, Method method = Method::Explicit);
+    MultiRoots multisolve(Polynomial&& poly, Method method = Method::Explicit);
 
 private:
     inline static const Type E1                    = std::sqrt(std::numeric_limits<Type>::epsilon());
@@ -54,7 +54,7 @@ private:
     std::vector<Polynomial> df;
     std::multimap<std::size_t, Complex> found;
 
-    Roots answer;
+    MultiRoots answer;
 
     void trim_leading_zeros() noexcept;
     void prepare();
@@ -89,13 +89,11 @@ private:
 
 #include "../../src/core/evaluate.hpp"
 
-/* Эксперименты:
- * 1. Разделить производную на m!
- * 2. Вычислять производные более точно
- *
+/*
 Перспективы повышения точности:
-    - вычисление значений полинома в точках: f(x), f'(x), f''(x), ...;
+    - теорема о рациональных корнях;
     - вычисление производных: f'(x), f''(x), ...;
+    - вычисление значений полинома в точках (возможно, через CompEA): f(x), f'(x), f''(x), ...;
     - дефляция основного полинома: f(x) /= (x - r)^m;
-    - теорема о рациональных корнях
+    - определение комплексного корня через уменьшение мнимой части (на порядки) при уточнении Ньютоном;
 */
