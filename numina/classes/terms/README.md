@@ -8,7 +8,8 @@
 
 ## 1. Назначение и контекст
 
-Группа классов `Term<Type>` (и `TermExpression<Type>`) предназначена для **представления слагаемых во временной области**, которые возникают при:
+Группа классов `Term<Type>` (и `TermExpression<Type>`) предназначена для **представления слагаемых во временной области
+**, которые возникают при:
 
 - Обратном преобразовании Лапласа (inverse Laplace transform)
 - Решении линейных ОДУ с постоянными коэффициентами
@@ -23,6 +24,7 @@ c · t^n · e^{α t} · cos(ω t + φ)     или     c · t^n · e^{r t}
 где параметры зависят от корней характеристического уравнения (или полюсов передаточной функции).
 
 **Ключевые особенности оригинальной реализации:**
+
 - Полиморфизм через абстрактный базовый класс `Term<Type>`
 - **Глобальное статическое время** `Term<Type>::time` (устанавливается перед вычислением)
 - Ручное управление памятью (`new` / `delete` в `TermExpression`)
@@ -54,22 +56,23 @@ class Term {
 
 ## 3. Классификация всех терминов (по типу корня и степени)
 
-| Класс              | Power n | Тип корня `r`          | Математическая формула                           | Когда используется |
-|--------------------|---------|------------------------|--------------------------------------------------|--------------------|
-| (константа)        | 0       | `r = 0`                | $ c $                                            | `init_value`       |
-| `TimeTerm`         | 1       | `r = 0`                | $$c \cdot t$$                                    | ramp               |
-| `UTimeTerm`        | ≥ 2     | `r = 0`                | $$ c \cdot t^{n} $$                              | полиномиальные     |
-| `ExpTerm`          | 0       | `r` вещественное ≠ 0   | $$ c \cdot e^{r t} $$                            | экспонента         |
-| `ExpTimeTerm`      | 1       | `r` вещественное ≠ 0   | $$ c \cdot t \cdot e^{r t} $$                    | эксп. ramp         |
-| `ExpUTimeTerm`     | ≥ 2     | `r` вещественное ≠ 0   | $$ c \cdot t^{n} \cdot e^{r t} $$                | эксп. полином      |
-| `CosTerm`          | 0       | `r = jω` (чисто мним.) | $$ A \cos(\omega t + \phi) $$                    | гармоника          |
-| `CosTimeTerm`      | 1       | `r = jω`               | $$ A \cdot t \cdot \cos(\omega t + \phi) $$      | гармоника × t      |
-| `CosUTimeTerm`     | ≥ 2     | `r = jω`               | $$ A \cdot t^{n} \cdot \cos(\omega t + \phi) $$  | гармоника × tⁿ     |
-| `ExpCosTerm`       | 0       | `r = α ± jω`           | $$ A e^{\alpha t} \cos(\omega t + \phi) $$       | затухающие колеб.  |
-| `ExpCosTimeTerm`   | 1       | `r = α ± jω`           | $$ A t e^{\alpha t} \cos(\omega t + \phi) $$     | затух. × t         |
-| `ExpCosUTimeTerm`  | ≥ 2     | `r = α ± jω`           | $$ A t^{n} e^{\alpha t} \cos(\omega t + \phi) $$ | затух. × tⁿ        |
+| Класс             | Power n | Тип корня `r`          | Математическая формула                         | Когда используется |
+|-------------------|---------|------------------------|------------------------------------------------|--------------------|
+| (константа)       | 0       | `r = 0`                | $$c$$                                          | `init_value`       |
+| `TimeTerm`        | 1       | `r = 0`                | $$c \cdot t$$                                  | ramp               |
+| `UTimeTerm`       | ≥ 2     | `r = 0`                | $$c \cdot t^{n}$$                              | полиномиальные     |
+| `ExpTerm`         | 0       | `r` вещественное ≠ 0   | $$c \cdot e^{r t}$$                            | экспонента         |
+| `ExpTimeTerm`     | 1       | `r` вещественное ≠ 0   | $$c \cdot t \cdot e^{r t}$$                    | эксп. ramp         |
+| `ExpUTimeTerm`    | ≥ 2     | `r` вещественное ≠ 0   | $$c \cdot t^{n} \cdot e^{r t}$$                | эксп. полином      |
+| `CosTerm`         | 0       | `r = jω` (чисто мним.) | $$A \cos(\omega t + \phi)$$                    | гармоника          |
+| `CosTimeTerm`     | 1       | `r = jω`               | $$A \cdot t \cdot \cos(\omega t + \phi)$$      | гармоника × t      |
+| `CosUTimeTerm`    | ≥ 2     | `r = jω`               | $$A \cdot t^{n} \cdot \cos(\omega t + \phi)$$  | гармоника × tⁿ     |
+| `ExpCosTerm`      | 0       | `r = α ± jω`           | $$A e^{\alpha t} \cos(\omega t + \phi)$$       | затухающие колеб.  |
+| `ExpCosTimeTerm`  | 1       | `r = α ± jω`           | $$A t e^{\alpha t} \cos(\omega t + \phi)$$     | затух. × t         |
+| `ExpCosUTimeTerm` | ≥ 2     | `r = α ± jω`           | $$A t^{n} e^{\alpha t} \cos(\omega t + \phi)$$ | затух. × tⁿ        |
 
 **Примечания по выбору класса (из `emplace_back`):**
+
 - Если `r == 0` → полиномиальная ветка (`TimeTerm`/`UTimeTerm`)
 - Если `r.real() == 0 && r.imag() != 0` → чисто гармоническая (`Cos*`)
 - Если `r.imag() == 0 && r.real() != 0` → чисто экспоненциальная (`Exp*`)
@@ -86,19 +89,23 @@ class Term {
 $$ y(t) = c \cdot t $$
 
 **Конструктор:**
+
 ```cpp
 explicit TimeTerm(Type c);
 ```
 
 **value():**
+
 ```cpp
 return coefficient * Term<Type>::time;
 ```
 
 **derivative():**
+
 ```cpp
 return {};   // производная — чистая константа
 ```
+
 **derivativeConstant():** `return coefficient;` ← добавляется в `init_value` производной.
 
 **string():** `"3.14 × t"`
@@ -111,16 +118,19 @@ return {};   // производная — чистая константа
 $$ y(t) = c \cdot t^{n} \quad (n \ge 2) $$
 
 **Конструктор:**
+
 ```cpp
 explicit UTimeTerm(Type a, int n);
 ```
 
 **value():**
+
 ```cpp
 return coefficient * std::pow(Term<Type>::time, power);
 ```
 
 **derivative():**
+
 ```cpp
 if (power == 2)
     return {new TimeTerm(power * coefficient)};   // 2c · t
@@ -128,7 +138,8 @@ else
     return {new UTimeTerm(power * coefficient, power-1)};
 ```
 
-**derivativeConstant():** `return coefficient;` (возможно, **ошибка** — для n≥2 не должно быть постоянного слагаемого в производной).
+**derivativeConstant():** `return coefficient;` (возможно, **ошибка** — для n≥2 не должно быть постоянного слагаемого в
+производной).
 
 **string():** `"2.5 × t<sup>3</sup>"`
 
@@ -140,16 +151,19 @@ else
 $$ y(t) = c \cdot e^{r t} $$
 
 **Конструктор:**
+
 ```cpp
 explicit ExpTerm(Type c, Type r);
 ```
 
 **value():**
+
 ```cpp
 return coefficient * std::exp(root * Term<Type>::time);
 ```
 
 **derivative():**
+
 ```cpp
 return {new ExpTerm(coefficient * root, root)};   // c·r · e^{r t}
 ```
@@ -164,16 +178,19 @@ return {new ExpTerm(coefficient * root, root)};   // c·r · e^{r t}
 $$ y(t) = c \cdot t \cdot e^{r t} $$
 
 **Конструктор:**
+
 ```cpp
 explicit ExpTimeTerm(Type c, Type r);
 ```
 
 **value():**
+
 ```cpp
 return coefficient * std::exp(root * Term<Type>::time) * Term<Type>::time;
 ```
 
 **derivative():**
+
 ```cpp
 return {
     new ExpTerm(coefficient * root, root),   // от экспоненты
@@ -191,6 +208,7 @@ return {
 $$ y(t) = c \cdot t^{n} \cdot e^{r t} $$
 
 **derivative() (для n==2):**
+
 ```cpp
 return {
     new ExpTimeTerm(2 * coefficient, root),           // 2c t e^{rt}
@@ -199,6 +217,7 @@ return {
 ```
 
 **Общий случай (n > 2):**
+
 - `power * coefficient` → понижение степени
 - `root * coefficient` → та же степень (от дифференцирования экспоненты)
 
@@ -211,18 +230,22 @@ $$ y(t) = A \cos(\omega t + \phi) $$
 где $$ A = 2 |c| $$, $$ \omega = \Im(r) $$, $$ \phi = \arg(c) $$
 
 **Конструкторы:**
+
 - Из комплексной пары: `CosTerm(const Comp& c, const Comp& r)`
 - Прямой: `CosTerm(Type A, Type ω, Type φ)`
 
 **value():**
+
 ```cpp
 return amplitude * std::cos(omega * Term<Type>::time + phi);
 ```
 
 **derivative():**
+
 ```cpp
 return {new CosTerm(-amplitude * omega, omega, phi - π/2)};
 ```
+
 (сдвиг фазы на -90° превращает cos в -sin)
 
 **string():** `"5.0 × cos(2.0 × t + 0.3)"` или с `<sup>` нет (только для t)
@@ -235,6 +258,7 @@ return {new CosTerm(-amplitude * omega, omega, phi - π/2)};
 $$ y(t) = A \cdot t \cdot \cos(\omega t + \phi) $$
 
 **derivative():**
+
 ```cpp
 return {
     new CosTerm(amplitude, omega, phi),                    // от t
@@ -246,7 +270,8 @@ return {
 
 ### 4.8. CosUTimeTerm (гармоника × tⁿ, n ≥ 2)
 
-Аналогично, но с `std::pow(t, power)` и рекурсивным понижением степени + добавление сдвинутой по фазе версии той же степени.
+Аналогично, но с `std::pow(t, power)` и рекурсивным понижением степени + добавление сдвинутой по фазе версии той же
+степени.
 
 ---
 
@@ -257,6 +282,7 @@ $$ y(t) = A \cdot e^{\alpha t} \cdot \cos(\omega t + \phi) $$
 где $$ A = 2 |c| $$, $$ \alpha = \Re(r) $$, $$ \omega = \Im(r) $$, $$ \phi = \arg(c) $$
 
 **derivative():**
+
 ```cpp
 return {
     new ExpCosTerm(amplitude * alpha, alpha, omega, phi),           // от экспоненты
@@ -272,6 +298,7 @@ return {
 $$ y(t) = A \cdot t \cdot e^{\alpha t} \cdot \cos(\omega t + \phi) $$
 
 **derivative() (оригинал):**
+
 ```cpp
 return {
     new ExpCosTerm(amplitude, alpha, omega, phi),
@@ -280,13 +307,15 @@ return {
 };
 ```
 
-> **Замечание:** Во второй строке должно быть `amplitude * alpha`, иначе математически неверно. Это известная ошибка оригинала.
+> **Замечание:** Во второй строке должно быть `amplitude * alpha`, иначе математически неверно. Это известная ошибка
+> оригинала.
 
 ---
 
 ### 4.11. ExpCosUTimeTerm (затух. колебания × tⁿ, n ≥ 2)
 
 Самый сложный. Для `n == 2` возвращает **три** слагаемых:
+
 1. `ExpCosTimeTerm(2 * amplitude, ...)` — от степени
 2. `ExpCosUTimeTerm(alpha * amplitude, ...)` — от экспоненты
 3. `ExpCosUTimeTerm(-amplitude * omega, ...)` — от косинуса (фазовый сдвиг)
@@ -304,12 +333,14 @@ TermExpression(const std::vector<std::complex<Type>>& roots,
 ```
 
 **Логика выбора класса** (см. `emplace_back`):
+
 - `r == 0` → `TimeTerm` / `UTimeTerm` / константа
 - `r.real() == 0` → `Cos*`
 - `r.imag() == 0` → `Exp*`
 - иначе → `ExpCos*`
 
 **Вычисление:**
+
 ```cpp
 Type operator()(double t) const {
     Term<Type>::time = t;           // ГЛОБАЛЬНО!
@@ -320,6 +351,7 @@ Type operator()(double t) const {
 ```
 
 **Производная выражения:**
+
 ```cpp
 TermExpression derivative() const {
     Type d_init = 0;
@@ -338,7 +370,8 @@ TermExpression derivative() const {
 ## 6. Известные особенности и потенциальные проблемы оригинальной версии
 
 1. **Глобальное состояние** `Term::time` — не потокобезопасно, не функционально.
-2. **Ручное управление памятью** — `TermExpression` владеет сырыми указателями, `delete` в деструкторе и assignment. Легко получить утечки/двойное удаление.
+2. **Ручное управление памятью** — `TermExpression` владеет сырыми указателями, `delete` в деструкторе и assignment.
+   Легко получить утечки/двойное удаление.
 3. **Отсутствие copy-конструктора** у `TermExpression` (только `operator=`).
 4. **Математическая неточность** в `ExpCosTimeTerm::derivative()` — пропущен множитель `alpha`.
 5. **Подозрительный `derivativeConstant()` в `UTimeTerm`** — возвращает `coefficient` вместо `0`.
