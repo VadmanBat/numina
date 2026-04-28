@@ -54,20 +54,20 @@ class Term {
 
 ## 3. Классификация всех терминов (по типу корня и степени)
 
-| Класс              | Power n | Тип корня `r`          | Математическая формула                      | Когда используется |
-|--------------------|---------|------------------------|---------------------------------------------|--------------------|
-| (константа)        | 0       | `r = 0`                | $$c$$                                       | `init_value`       |
-| `TimeTerm`         | 1       | `r = 0`                | $$c \cdot t$$                               | ramp               |
-| `UTimeTerm`        | ≥ 2     | `r = 0`                | $$ c \cdot t^{n} $$                         | полиномиальные     |
-| `ExpTerm`          | 0       | `r` вещественное ≠ 0   | $$ c \cdot e^{r t} $$                       | экспонента         |
-| `ExpTimeTerm`      | 1       | `r` вещественное ≠ 0   | $$ c \cdot t \cdot e^{r t} $$               | эксп. ramp         |
-| `ExpUTimeTerm`     | ≥ 2     | `r` вещественное ≠ 0   | $$ c \cdot t^{n} \cdot e^{r t} $$           | эксп. полином      |
-| `CosTerm`          | 0       | `r = jω` (чисто мним.) | $$ A \cos(\omega t + \phi) $$               | гармоника          |
-| `CosTimeTerm`      | 1       | `r = jω`               | $$ A \cdot t \cdot \cos(\omega t + \phi) $$ | гармоника × t      |
-| `CosUTimeTerm`     | ≥ 2     | `r = jω`               | $$ A \cdot t^{n} \cdot \cos(\omega t + \phi) $$ | гармоника × tⁿ     |
-| `ExpCosTerm`       | 0       | `r = α ± jω`           | $$ A e^{\alpha t} \cos(\omega t + \phi) $$  | затухающие колеб.  |
-| `ExpCosTimeTerm`   | 1       | `r = α ± jω`           | $$ A t e^{\alpha t} \cos(\omega t + \phi) $$ | затух. × t         |
-| `ExpCosUTimeTerm`  | ≥ 2     | `r = α ± jω`           | $$ A t^{n} e^{\alpha t} \cos(\omega t + \phi) $$| затух. × tⁿ        |
+| Класс              | Power n | Тип корня `r`          | Математическая формула                           | Когда используется |
+|--------------------|---------|------------------------|--------------------------------------------------|--------------------|
+| (константа)        | 0       | `r = 0`                | $ c $                                            | `init_value`       |
+| `TimeTerm`         | 1       | `r = 0`                | $$c \cdot t$$                                    | ramp               |
+| `UTimeTerm`        | ≥ 2     | `r = 0`                | $$ c \cdot t^{n} $$                              | полиномиальные     |
+| `ExpTerm`          | 0       | `r` вещественное ≠ 0   | $$ c \cdot e^{r t} $$                            | экспонента         |
+| `ExpTimeTerm`      | 1       | `r` вещественное ≠ 0   | $$ c \cdot t \cdot e^{r t} $$                    | эксп. ramp         |
+| `ExpUTimeTerm`     | ≥ 2     | `r` вещественное ≠ 0   | $$ c \cdot t^{n} \cdot e^{r t} $$                | эксп. полином      |
+| `CosTerm`          | 0       | `r = jω` (чисто мним.) | $$ A \cos(\omega t + \phi) $$                    | гармоника          |
+| `CosTimeTerm`      | 1       | `r = jω`               | $$ A \cdot t \cdot \cos(\omega t + \phi) $$      | гармоника × t      |
+| `CosUTimeTerm`     | ≥ 2     | `r = jω`               | $$ A \cdot t^{n} \cdot \cos(\omega t + \phi) $$  | гармоника × tⁿ     |
+| `ExpCosTerm`       | 0       | `r = α ± jω`           | $$ A e^{\alpha t} \cos(\omega t + \phi) $$       | затухающие колеб.  |
+| `ExpCosTimeTerm`   | 1       | `r = α ± jω`           | $$ A t e^{\alpha t} \cos(\omega t + \phi) $$     | затух. × t         |
+| `ExpCosUTimeTerm`  | ≥ 2     | `r = α ± jω`           | $$ A t^{n} e^{\alpha t} \cos(\omega t + \phi) $$ | затух. × tⁿ        |
 
 **Примечания по выбору класса (из `emplace_back`):**
 - Если `r == 0` → полиномиальная ветка (`TimeTerm`/`UTimeTerm`)
