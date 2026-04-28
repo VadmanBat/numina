@@ -7,8 +7,9 @@
 
 ### 1.1 Метод Лагерра (Laguerre’s method)
 
-Основной итерационный метод — **метод Лагерра
-** ([Эдмон Лагерр](https://ru.wikipedia.org/wiki/Лагерр,_Эдмон) / [Edmond Laguerre](https://en.wikipedia.org/wiki/Edmond_Laguerre),
+Основной итерационный метод — **метод Лагерра**
+([Эдмон Лагерр](https://ru.wikipedia.org/wiki/Лагерр,_Эдмон) /
+[Edmond Laguerre](https://en.wikipedia.org/wiki/Edmond_Laguerre),
 1880).  
 Для многочлена степени $n$ в точке приближения $z$ вычисляются:
 
