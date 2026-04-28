@@ -5,7 +5,7 @@
 #ifndef MATH_CORE_TIME_TERMS_HPP
 #define MATH_CORE_TIME_TERMS_HPP
 
-#include "numina/terms/term.hpp"
+#include "../term.hpp"
 
 template <typename Type>
 class TimeTerm : public Term<Type> {

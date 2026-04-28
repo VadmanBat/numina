@@ -5,7 +5,7 @@
 #ifndef REGVALVE_TERM_EXPRESSION_HPP
 #define REGVALVE_TERM_EXPRESSION_HPP
 
-#include "numina/terms/time-terms/utime-terms.hpp"
+#include "time-terms/utime-terms.hpp"
 
 template <typename Type>
 class TermExpression {
