@@ -6,7 +6,7 @@ std::vector<Polynomial::Complex> Polynomial::computeRoots() const {
     return solver.solve(*this);
 }
 
-Polynomial::Roots Polynomial::computeRootsWithMultiplicity() const {
+Polynomial::MultiRoots Polynomial::computeMultiRoots() const {
     numina::PolySolver solver;
     return solver.multisolve(*this);
 }

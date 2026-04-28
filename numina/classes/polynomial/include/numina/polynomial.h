@@ -9,7 +9,7 @@ public:
     using Complex     = std::complex<Type>;
     using LongType    = long double;
     using LongComplex = std::complex<LongType>;
-    using Roots       = std::pair<
+    using MultiRoots  = std::pair<
         std::vector<std::pair<Type, std::size_t>>,
         std::vector<std::pair<Complex, std::size_t>>
     >;
@@ -58,7 +58,7 @@ public:
     [[nodiscard]] Polynomial compose(const Polynomial& other) const;
 
     [[nodiscard]] std::vector<Complex> computeRoots() const;
-    [[nodiscard]] Roots computeRootsWithMultiplicity() const;
+    [[nodiscard]] MultiRoots computeMultiRoots() const;
 
     [[nodiscard]] Type multiplicity(const Type& x, std::size_t m = 1) const;
     [[nodiscard]] Type multiplicity(const Complex& x, std::size_t m = 1) const;

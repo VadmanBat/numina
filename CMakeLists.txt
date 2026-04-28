@@ -15,10 +15,10 @@ add_executable(${PROJECT_NAME}
         #main.cpp
         numina/classes/poly-solver/tests/poly-solver-test.cpp
 
-        numina/classes/polynomial/src/internal/remove-leading-zeros.cpp
+        numina/classes/polynomial/src/core/remove-leading-zeros.cpp
         numina/classes/polynomial/src/operators/analytical.cpp
         numina/classes/polynomial/src/operators/arithmetic.cpp
-        numina/classes/polynomial/src/operators/assignment.cpp
+        numina/classes/polynomial/src/core/assignment.cpp
         numina/classes/polynomial/src/operators/bool-ops.cpp
         numina/classes/polynomial/src/operators/io-ops.cpp
         numina/classes/polynomial/src/operators/scalar-ops.cpp
