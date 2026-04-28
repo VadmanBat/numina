@@ -29,7 +29,7 @@ void PolySolver::trim_leading_zeros() noexcept {
 void PolySolver::prepare() {
     degree = coeffs.size() - 1;
 
-    const Type lead = std::abs(coeffs[0]);
+    const Type lead = coeffs[0];
     for (auto& coeff : coeffs)
         coeff /= lead;
 
