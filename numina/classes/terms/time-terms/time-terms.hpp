@@ -190,8 +190,8 @@ public:
 
     [[nodiscard]] inline std::vector<Term<Type>*> derivative() const override {
         return {
-            new ExpCosTerm(amplitude * alpha, alpha, omega, phi),
-            new ExpCosTimeTerm(amplitude, alpha, omega, phi),
+            new ExpCosTerm(amplitude, alpha, omega, phi),
+            new ExpCosTimeTerm(amplitude * alpha, alpha, omega, phi),
             new ExpCosTimeTerm(-amplitude * omega, alpha, omega, phi - std::numbers::pi_v<Type> / 2)
         };
     }
