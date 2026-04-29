@@ -28,15 +28,15 @@ public:
         phi(other.phi) {
     }
 
-    inline Term<Type>* clone() const override {
+    Term<Type>* clone() const override {
         return new CosTerm(*this);
     }
 
-    inline Type value() const override {
+    Type value() const override {
         return amplitude * std::cos(omega * Term<Type>::time + phi);
     }
 
-    [[nodiscard]] inline std::vector<Term<Type>*> derivative() const override {
+    [[nodiscard]] std::vector<Term<Type>*> derivative() const override {
         return {new CosTerm(-amplitude * omega, omega, phi - std::numbers::pi_v<Type> / 2)};
     }
 
@@ -44,7 +44,7 @@ public:
         return amplitude > 0;
     }
 
-    [[nodiscard]] inline std::string string() const override {
+    [[nodiscard]] std::string string() const override {
         if (phi == 0)
             return (std::stringstream() << amplitude << " × cos(" << omega << " × t)").str();
         const char phi_sign = phi > 0 ? '+' : '-';
@@ -52,7 +52,7 @@ public:
                 ')').str();
     }
 
-    [[nodiscard]] inline std::string unsignedString() const override {
+    [[nodiscard]] std::string unsignedString() const override {
         if (phi == 0)
             return (std::stringstream() << amplitude << " × cos(" << omega << " × t)").str();
         const char phi_sign = phi > 0 ? '+' : '-';

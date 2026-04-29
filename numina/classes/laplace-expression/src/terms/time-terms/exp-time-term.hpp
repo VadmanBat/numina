@@ -18,15 +18,15 @@ public:
         root(other.root) {
     }
 
-    inline Term<Type>* clone() const override {
+    Term<Type>* clone() const override {
         return new ExpTimeTerm(*this);
     }
 
-    inline Type value() const override {
+    Type value() const override {
         return coefficient * std::exp(root * Term<Type>::time) * Term<Type>::time;
     }
 
-    inline std::vector<Term<Type>*> derivative() const override {
+    std::vector<Term<Type>*> derivative() const override {
         return {
             new ExpTerm(coefficient * root, root),
             new ExpTerm(coefficient, root)
@@ -37,11 +37,11 @@ public:
         return coefficient > 0;
     }
 
-    [[nodiscard]] inline std::string string() const override {
+    [[nodiscard]] std::string string() const override {
         return (std::stringstream() << coefficient << " × e<sup>" << root << " × t</sup> × t").str();
     }
 
-    [[nodiscard]] inline std::string unsignedString() const override {
+    [[nodiscard]] std::string unsignedString() const override {
         return (std::stringstream() << std::abs(coefficient) << " × e<sup>" << root << " × t</sup> × t").str();
     }
 };

@@ -51,39 +51,39 @@ public:
     void emplace_back(const Comp& c, const Comp& r, int n) {
         if (std::abs(r) == 0)
             switch (n) {
-            case 0:
+                case 0:
                     init_value += c.real();
                     return;
-            case 1:
+                case 1:
                     terms.push_back(new TimeTerm(c.real()));
                     return;
-            default:
+                default:
                     terms.push_back(new PolyTerm(c.real(), n));
                     return;
             }
 
         if (r.imag() == 0)
             switch (n) {
-            case 0:
+                case 0:
                     terms.push_back(new ExpTerm(c.real(), r.real()));
                     return;
-            case 1:
+                case 1:
                     terms.push_back(new ExpTimeTerm(c.real(), r.real()));
                     return;
-            default:
+                default:
                     terms.push_back(new ExpPolyTerm(c.real(), r.real(), n));
                     return;
             }
 
         if (r.real() == 0)
             switch (n) {
-            case 0:
+                case 0:
                     terms.push_back(new CosTerm(c, r));
                     return;
-            case 1:
+                case 1:
                     terms.push_back(new CosTimeTerm(c, r));
                     return;
-            default:
+                default:
                     terms.push_back(new CosPolyTerm(c, r, n));
                     return;
             }
@@ -101,11 +101,11 @@ public:
         }
     }
 
-    inline void push_back(std::vector<Term<Type>*> new_terms) {
+    void push_back(std::vector<Term<Type>*> new_terms) {
         terms.insert(terms.end(), new_terms.begin(), new_terms.end());
     }
 
-    inline Type operator()(double time) const {
+    Type operator()(double time) const {
         Term<Type>::time = time;
 
         Type result = init_value;
@@ -115,7 +115,7 @@ public:
         return result;
     }
 
-    inline LaplaceExpression derivative() const {
+    LaplaceExpression derivative() const {
         Type derivative_init_value = 0;
         std::vector<Term<Type>*> derivative_terms;
         for (const auto term : terms) {
@@ -129,7 +129,7 @@ public:
         return LaplaceExpression(derivative_terms, derivative_init_value);
     }
 
-    [[nodiscard]] inline std::string string() const {
+    [[nodiscard]] std::string string() const {
         if (init_value != 0) {
             std::string result = (std::stringstream() << init_value).str();
             for (const auto term : terms)

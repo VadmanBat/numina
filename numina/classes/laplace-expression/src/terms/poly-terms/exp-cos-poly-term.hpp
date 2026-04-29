@@ -34,16 +34,16 @@ public:
         power(other.power) {
     }
 
-    inline Term<Type>* clone() const override {
+    Term<Type>* clone() const override {
         return new ExpCosPolyTerm(*this);
     }
 
-    inline Type value() const override {
+    Type value() const override {
         return amplitude * std::exp(alpha * Term<Type>::time) * std::cos(omega * Term<Type>::time + phi) * std::pow(
                    Term<Type>::time, power);
     }
 
-    [[nodiscard]] inline std::vector<Term<Type>*> derivative() const override {
+    [[nodiscard]] std::vector<Term<Type>*> derivative() const override {
         if (power == 2)
             return {
                 new ExpCosTimeTerm(2 * amplitude, alpha, omega, phi),
@@ -61,7 +61,7 @@ public:
         return amplitude > 0;
     }
 
-    [[nodiscard]] inline std::string string() const override {
+    [[nodiscard]] std::string string() const override {
         if (phi == 0)
             return (std::stringstream() << amplitude << " × e<sup>" << alpha << " × t</sup> × cos(" << omega <<
                     " × t) × t<sup>" << power << "</sup>").str();
@@ -70,7 +70,7 @@ public:
                 phi_sign << ' ' << std::abs(phi) << " × t<sup>" << power << "</sup>").str();
     }
 
-    [[nodiscard]] inline std::string unsignedString() const override {
+    [[nodiscard]] std::string unsignedString() const override {
         if (phi == 0)
             return (std::stringstream() << amplitude << " × e<sup>" << alpha << " × t</sup> × cos(" << omega <<
                     " × t) × t<sup>" << power << "</sup>").str();

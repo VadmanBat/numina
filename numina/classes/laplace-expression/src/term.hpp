@@ -23,7 +23,7 @@ public:
 
     inline static Type time;
 
-    inline static void setPrecision(int n) {
+    static void setPrecision(int n) {
         std::stringstream() << std::fixed << std::setprecision(n);
     }
 };

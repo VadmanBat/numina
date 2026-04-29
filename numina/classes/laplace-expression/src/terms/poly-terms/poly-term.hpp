@@ -20,15 +20,15 @@ public:
         power(other.power) {
     }
 
-    inline Term<Type>* clone() const override {
+    Term<Type>* clone() const override {
         return new PolyTerm(*this);
     }
 
-    inline Type value() const override {
+    Type value() const override {
         return coefficient * std::pow(Term<Type>::time, power);
     }
 
-    [[nodiscard]] inline std::vector<Term<Type>*> derivative() const override {
+    [[nodiscard]] std::vector<Term<Type>*> derivative() const override {
         if (power == 2)
             return {new TimeTerm(2 * coefficient)};
         return {new PolyTerm(power * coefficient, power - 1)};
@@ -38,11 +38,11 @@ public:
         return coefficient > 0;
     }
 
-    [[nodiscard]] inline std::string string() const override {
+    [[nodiscard]] std::string string() const override {
         return (std::stringstream() << coefficient << " × t<sup>" << power << "</sup>").str();
     }
 
-    [[nodiscard]] inline std::string unsignedString() const override {
+    [[nodiscard]] std::string unsignedString() const override {
         return (std::stringstream() << std::abs(coefficient) << " × t<sup>" << power << "</sup>").str();
     }
 };
