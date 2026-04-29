@@ -1,19 +1,18 @@
 BasedOnStyle: Google                  # Базовый стиль — Google. Все неуказанные параметры берутся из стиля Google.
-
 IndentWidth: 4                        # Ширина одного уровня отступа — 4 пробела.
 UseTab: Never                         # Никогда не использовать символы табуляции, только пробелы.
-
 Standard: Latest                      # Использовать самый новый стандарт C++ (на момент clang-format 22 — C++23).
 # Это важно для правильного форматирования современных фич: concepts, ranges, coroutines, modules и т.д.
+MaxEmptyLinesToKeep: 1                # Оставляет максимум одну пустую строку подряд. Убирает «ползучие» лишние пустые строки после рефакторинга.
+ColumnLimit: 120                      # Максимальная длина строки — 120 символов
 
-BreakBeforeBraces: Custom             # Кастомный режим размещения скобок — обязательно, чтобы работали индивидуальные настройки BraceWrapping.
-
+# === Includes ===
 SortIncludes: CaseInsensitive         # Умная сортировка #include: сначала системные, потом внешние, потом свои — и внутри каждого блока по алфавиту.
 IncludeBlocks: Regroup                # Группирует include в логические блоки (system / external / project) и ставит пустые строки между ними.
 # Работает только вместе с SortIncludes: Block — очень удобно для больших проектов.
 
-MaxEmptyLinesToKeep: 1                # Оставляет максимум одну пустую строку подряд. Убирает «ползучие» лишние пустые строки после рефакторинга.
-
+# === Скобки ===
+BreakBeforeBraces: Custom             # Кастомный режим размещения скобок — обязательно, чтобы работали индивидуальные настройки BraceWrapping.
 BraceWrapping:
   AfterCaseLabel: false               # Не переносить { после case
   AfterClass: false                   # Не переносить { после class/struct
@@ -34,6 +33,7 @@ BraceWrapping:
   SplitEmptyRecord: true              # То же для пустых class/struct/union
   SplitEmptyNamespace: true           # То же для пустых namespace
 
+# === Короткие конструкции ===
 AllowShortIfStatementsOnASingleLine: Never
 # Запрещаем однострочные if без скобок (даже с else). Теперь всегда требуются { }
 AllowShortLoopsOnASingleLine: false   # Запрет коротких циклов на одной строке
@@ -43,8 +43,8 @@ AllowShortCaseLabelsOnASingleLine: false
 # Не разрешать несколько case на одной строке
 AllowShortBlocksOnASingleLine: Never  # Никогда не сворачивать короткие блоки на одну строку
 
-ColumnLimit: 120                      # Максимальная длина строки — 120 символов
 
+# === Пробелы и выравнивание ===
 SpaceBeforeParens: ControlStatements  # Пробел перед скобками только в if/for/while и т.п., но не в вызовах функций
 SpaceAfterCStyleCast: false           # Без пробела после static_cast<int>(x)
 SpacesInAngles: false                 # Без пробелов в шаблонах: vector<int>
