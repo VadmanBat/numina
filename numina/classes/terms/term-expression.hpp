@@ -1,6 +1,9 @@
 #pragma once
 // Created by Vadim on 07.01.2025.
-#include "time-terms/poly-terms.hpp"
+#include "time-terms/poly-terms/poly-term.hpp"
+#include "time-terms/poly-terms/exp-poly-term.hpp"
+#include "time-terms/poly-terms/cos-poly-term.hpp"
+#include "time-terms/poly-terms/exp-cos-poly-term.hpp"
 
 namespace numina {
 template <typename Type>
