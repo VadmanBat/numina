@@ -105,12 +105,10 @@ public:
         terms.insert(terms.end(), new_terms.begin(), new_terms.end());
     }
 
-    Type operator()(double time) const {
-        Term<Type>::time = time;
-
+    Type operator()(double t) const {
         Type result = init_value;
         for (const auto term : terms)
-            result += term->value();
+            result += term->value(t);
 
         return result;
     }

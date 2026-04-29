@@ -9,21 +9,17 @@ template <typename Type>
 class Term {
 public:
     virtual ~Term() = default;
-    [[nodiscard]] virtual inline Type value() const = 0;
-    [[nodiscard]] virtual inline std::vector<Term*> derivative() const = 0;
-    [[nodiscard]] virtual inline Term* clone() const = 0;
+    [[nodiscard]] virtual Type value(Type t) const = 0;
+    [[nodiscard]] virtual std::vector<Term*> derivative() const = 0;
+    [[nodiscard]] virtual Term* clone() const = 0;
 
-    [[nodiscard]] virtual inline bool isPositive() const = 0;
-    [[nodiscard]] virtual inline std::string string() const = 0;
-    [[nodiscard]] virtual inline std::string unsignedString() const = 0;
+    [[nodiscard]] virtual bool isPositive() const = 0;
+    [[nodiscard]] virtual std::string string() const = 0;
+    [[nodiscard]] virtual std::string unsignedString() const = 0;
 
-    [[nodiscard]] virtual inline Type derivativeConstant() const {
-        return 0;
-    };
+    [[nodiscard]] virtual Type derivativeConstant() const { return 0; };
 
-    inline static Type time;
-
-    static void setPrecision(int n) {
+    static void setPrecision(const int n) {
         std::stringstream() << std::fixed << std::setprecision(n);
     }
 };

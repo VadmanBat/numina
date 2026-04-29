@@ -22,8 +22,8 @@ public:
         return new ExpTimeTerm(*this);
     }
 
-    Type value() const override {
-        return coefficient * std::exp(root * Term<Type>::time) * Term<Type>::time;
+    Type value(Type t) const override {
+        return coefficient * std::exp(root * t) * t;
     }
 
     std::vector<Term<Type>*> derivative() const override {

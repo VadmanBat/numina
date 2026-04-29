@@ -40,8 +40,9 @@ add_executable(${PROJECT_NAME}
 
 # ========== Красивые include ==========
 target_include_directories(${PROJECT_NAME} PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/numina/classes/polynomial/include
+        ${CMAKE_CURRENT_SOURCE_DIR}/numina/classes/laplace-expression/include
         ${CMAKE_CURRENT_SOURCE_DIR}/numina/classes/poly-solver/include
+        ${CMAKE_CURRENT_SOURCE_DIR}/numina/classes/polynomial/include
         ${CMAKE_CURRENT_SOURCE_DIR}/numina/classes/quadratic-deriv-poly/include
         ${CMAKE_CURRENT_SOURCE_DIR}/numina/classes/transfer-function/include
 )

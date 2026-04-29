@@ -25,8 +25,8 @@ public:
         return new ExpPolyTerm(*this);
     }
 
-    Type value() const override {
-        return coefficient * std::exp(root * Term<Type>::time) * std::pow(Term<Type>::time, power);
+    Type value(Type t) const override {
+        return coefficient * std::exp(root * t) * std::pow(t, power);
     }
 
     [[nodiscard]] std::vector<Term<Type>*> derivative() const override {

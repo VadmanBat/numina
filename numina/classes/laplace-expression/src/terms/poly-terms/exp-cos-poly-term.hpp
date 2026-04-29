@@ -38,9 +38,8 @@ public:
         return new ExpCosPolyTerm(*this);
     }
 
-    Type value() const override {
-        return amplitude * std::exp(alpha * Term<Type>::time) * std::cos(omega * Term<Type>::time + phi) * std::pow(
-                   Term<Type>::time, power);
+    Type value(Type t) const override {
+        return amplitude * std::exp(alpha * t) * std::cos(omega * t + phi) * std::pow(t, power);
     }
 
     [[nodiscard]] std::vector<Term<Type>*> derivative() const override {

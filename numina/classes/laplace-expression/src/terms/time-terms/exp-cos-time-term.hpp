@@ -34,9 +34,8 @@ public:
         return new ExpCosTimeTerm(*this);
     }
 
-    Type value() const override {
-        return amplitude * std::exp(alpha * Term<Type>::time) * std::cos(omega * Term<Type>::time + phi) * Term<
-                   Type>::time;
+    Type value(Type t) const override {
+        return amplitude * std::exp(alpha * t) * std::cos(omega * t + phi) * t;
     }
 
     [[nodiscard]] std::vector<Term<Type>*> derivative() const override {

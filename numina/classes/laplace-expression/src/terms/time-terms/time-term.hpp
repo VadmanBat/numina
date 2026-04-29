@@ -20,8 +20,8 @@ public:
         return new TimeTerm(*this);
     }
 
-    Type value() const override {
-        return coefficient * Term<Type>::time;
+    Type value(Type t) const override {
+        return coefficient * t;
     }
 
     [[nodiscard]] std::vector<Term<Type>*> derivative() const override {
