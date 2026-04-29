@@ -1,6 +1,6 @@
 #pragma once
 // Created by Vadim on 07.01.2025.
-#include "time-terms/utime-terms.hpp"
+#include "time-terms/poly-terms.hpp"
 
 namespace numina {
 template <typename Type>
@@ -56,7 +56,7 @@ public:
                     terms.push_back(new TimeTerm(c.real()));
                     return;
             default:
-                    terms.push_back(new UTimeTerm(c.real(), n));
+                    terms.push_back(new PolyTerm(c.real(), n));
                     return;
             }
 
@@ -69,7 +69,7 @@ public:
                     terms.push_back(new ExpTimeTerm(c.real(), r.real()));
                     return;
             default:
-                    terms.push_back(new ExpUTimeTerm(c.real(), r.real(), n));
+                    terms.push_back(new ExpPolyTerm(c.real(), r.real(), n));
                     return;
             }
 
@@ -82,7 +82,7 @@ public:
                     terms.push_back(new CosTimeTerm(c, r));
                     return;
             default:
-                    terms.push_back(new CosUTimeTerm(c, r, n));
+                    terms.push_back(new CosPolyTerm(c, r, n));
                     return;
             }
 
@@ -94,7 +94,7 @@ public:
                 terms.push_back(new ExpCosTimeTerm(c, r));
                 return;
             default:
-                terms.push_back(new ExpCosUTimeTerm(c, r, n));
+                terms.push_back(new ExpCosPolyTerm(c, r, n));
                 return;
         }
     }

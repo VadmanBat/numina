@@ -4,24 +4,24 @@
 
 namespace numina {
 template <typename Type>
-class UTimeTerm : public Term<Type> {
+class PolyTerm : public Term<Type> {
 private:
     const Type coefficient;
     const int power;
 
 public:
-    explicit UTimeTerm(Type a, int n) :
+    explicit PolyTerm(Type a, int n) :
         coefficient(a),
         power(n) {
     }
 
-    UTimeTerm(const UTimeTerm& other) :
+    PolyTerm(const PolyTerm& other) :
         coefficient(other.coefficient),
         power(other.power) {
     }
 
     inline Term<Type>* clone() const override {
-        return new UTimeTerm(*this);
+        return new PolyTerm(*this);
     }
 
     inline Type value() const override {
@@ -31,7 +31,7 @@ public:
     [[nodiscard]] inline std::vector<Term<Type>*> derivative() const override {
         if (power == 2)
             return {new TimeTerm(2 * coefficient)};
-        return {new UTimeTerm(power * coefficient, power - 1)};
+        return {new PolyTerm(power * coefficient, power - 1)};
     }
 
     [[nodiscard]] bool isPositive() const override {
@@ -48,26 +48,26 @@ public:
 };
 
 template <typename Type>
-class ExpUTimeTerm : public Term<Type> {
+class ExpPolyTerm : public Term<Type> {
 private:
     const Type coefficient, root;
     const int power;
 
 public:
-    explicit ExpUTimeTerm(Type c, Type r, int n) :
+    explicit ExpPolyTerm(Type c, Type r, int n) :
         coefficient(c),
         root(r),
         power(n) {
     }
 
-    ExpUTimeTerm(const ExpUTimeTerm& other) :
+    ExpPolyTerm(const ExpPolyTerm& other) :
         coefficient(other.coefficient),
         root(other.root),
         power(other.power) {
     }
 
     inline Term<Type>* clone() const override {
-        return new ExpUTimeTerm(*this);
+        return new ExpPolyTerm(*this);
     }
 
     inline Type value() const override {
@@ -78,11 +78,11 @@ public:
         if (power == 2)
             return {
                 new ExpTimeTerm(2 * coefficient, root),
-                new ExpUTimeTerm(root * coefficient, root, 2)
+                new ExpPolyTerm(root * coefficient, root, 2)
             };
         return {
-            new ExpUTimeTerm(power * coefficient, root, power - 1),
-            new ExpUTimeTerm(root * coefficient, root, power)
+            new ExpPolyTerm(power * coefficient, root, power - 1),
+            new ExpPolyTerm(root * coefficient, root, power)
         };
     }
 
@@ -102,28 +102,28 @@ public:
 };
 
 template <typename Type>
-class CosUTimeTerm : public Term<Type> {
+class CosPolyTerm : public Term<Type> {
 private:
     using Comp = std::complex<Type>;
     const Type amplitude, omega, phi;
     const int power;
 
 public:
-    explicit CosUTimeTerm(const Comp& c, const Comp& r, int n) :
+    explicit CosPolyTerm(const Comp& c, const Comp& r, int n) :
         amplitude(2 * std::abs(c)),
         omega(r.imag()),
         phi(std::atan2(c.imag(), c.real())),
         power(n) {
     }
 
-    explicit CosUTimeTerm(Type amplitude, Type omega, Type phi, int power) :
+    explicit CosPolyTerm(Type amplitude, Type omega, Type phi, int power) :
         amplitude(amplitude),
         omega(omega),
         phi(std::remainder(phi, 2 * std::numbers::pi_v<Type>)),
         power(power) {
     }
 
-    CosUTimeTerm(const CosUTimeTerm& other) :
+    CosPolyTerm(const CosPolyTerm& other) :
         amplitude(other.amplitude),
         omega(other.omega),
         phi(other.phi),
@@ -131,7 +131,7 @@ public:
     }
 
     inline Term<Type>* clone() const override {
-        return new CosUTimeTerm(*this);
+        return new CosPolyTerm(*this);
     }
 
     inline Type value() const override {
@@ -142,11 +142,11 @@ public:
         if (power == 2)
             return {
                 new CosTimeTerm(2 * amplitude, omega, phi),
-                new CosUTimeTerm(-amplitude * omega, omega, phi - std::numbers::pi_v<Type> / 2, 2)
+                new CosPolyTerm(-amplitude * omega, omega, phi - std::numbers::pi_v<Type> / 2, 2)
             };
         return {
-            new CosUTimeTerm(power * amplitude, omega, phi, power - 1),
-            new CosUTimeTerm(-amplitude * omega, omega, phi - std::numbers::pi_v<Type> / 2, power)
+            new CosPolyTerm(power * amplitude, omega, phi, power - 1),
+            new CosPolyTerm(-amplitude * omega, omega, phi - std::numbers::pi_v<Type> / 2, power)
         };
     }
 
@@ -174,14 +174,14 @@ public:
 };
 
 template <typename Type>
-class ExpCosUTimeTerm : public Term<Type> {
+class ExpCosPolyTerm : public Term<Type> {
 private:
     using Comp = std::complex<Type>;
     Type amplitude, alpha, omega, phi;
     int power;
 
 public:
-    explicit ExpCosUTimeTerm(const Comp& c, const Comp& r, int n) :
+    explicit ExpCosPolyTerm(const Comp& c, const Comp& r, int n) :
         amplitude(2 * std::abs(c)),
         alpha(r.real()),
         omega(r.imag()),
@@ -189,7 +189,7 @@ public:
         power(n) {
     }
 
-    explicit ExpCosUTimeTerm(Type amplitude, Type alpha, Type omega, Type phi, int power) :
+    explicit ExpCosPolyTerm(Type amplitude, Type alpha, Type omega, Type phi, int power) :
         amplitude(amplitude),
         alpha(alpha),
         omega(omega),
@@ -197,7 +197,7 @@ public:
         power(power) {
     }
 
-    ExpCosUTimeTerm(const ExpCosUTimeTerm& other) :
+    ExpCosPolyTerm(const ExpCosPolyTerm& other) :
         amplitude(other.amplitude),
         alpha(other.alpha),
         omega(other.omega),
@@ -206,7 +206,7 @@ public:
     }
 
     inline Term<Type>* clone() const override {
-        return new ExpCosUTimeTerm(*this);
+        return new ExpCosPolyTerm(*this);
     }
 
     inline Type value() const override {
@@ -218,13 +218,13 @@ public:
         if (power == 2)
             return {
                 new ExpCosTimeTerm(2 * amplitude, alpha, omega, phi),
-                new ExpCosUTimeTerm(alpha * amplitude, alpha, omega, phi, 2),
-                new ExpCosUTimeTerm(-amplitude * omega, alpha, omega, phi - std::numbers::pi_v<Type> / 2, 2)
+                new ExpCosPolyTerm(alpha * amplitude, alpha, omega, phi, 2),
+                new ExpCosPolyTerm(-amplitude * omega, alpha, omega, phi - std::numbers::pi_v<Type> / 2, 2)
             };
         return {
-            new ExpCosUTimeTerm(power * amplitude, alpha, omega, phi, power - 1),
-            new ExpCosUTimeTerm(alpha * amplitude, alpha, omega, phi, power),
-            new ExpCosUTimeTerm(-amplitude * omega, alpha, omega, phi - std::numbers::pi_v<Type> / 2, power)
+            new ExpCosPolyTerm(power * amplitude, alpha, omega, phi, power - 1),
+            new ExpCosPolyTerm(alpha * amplitude, alpha, omega, phi, power),
+            new ExpCosPolyTerm(-amplitude * omega, alpha, omega, phi - std::numbers::pi_v<Type> / 2, power)
         };
     }
 
