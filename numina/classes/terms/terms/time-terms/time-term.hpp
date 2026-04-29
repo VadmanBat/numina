@@ -5,7 +5,6 @@
 namespace numina {
 template <typename Type>
 class TimeTerm : public Term<Type> {
-private:
     const Type coefficient;
 
 public:

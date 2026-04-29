@@ -6,7 +6,6 @@
 namespace numina {
 template <typename Type>
 class ExpTerm : public Term<Type> {
-private:
     const Type coefficient, root;
 
 public:

@@ -5,7 +5,6 @@
 namespace numina {
 template <typename Type>
 class ExpCosPolyTerm : public Term<Type> {
-private:
     using Comp = std::complex<Type>;
     Type amplitude, alpha, omega, phi;
     int power;

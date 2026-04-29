@@ -6,7 +6,6 @@
 namespace numina {
 template <typename Type>
 class PolyTerm : public Term<Type> {
-private:
     const Type coefficient;
     const int power;
 

@@ -5,7 +5,6 @@
 namespace numina {
 template <typename Type>
 class CosTimeTerm : public Term<Type> {
-private:
     using Comp = std::complex<Type>;
     const Type amplitude, omega, phi;
 

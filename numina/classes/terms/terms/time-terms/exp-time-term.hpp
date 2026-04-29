@@ -5,7 +5,6 @@
 namespace numina {
 template <typename Type>
 class ExpTimeTerm : public Term<Type> {
-private:
     Type coefficient, root;
 
 public:

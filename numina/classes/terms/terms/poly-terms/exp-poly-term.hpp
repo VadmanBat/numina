@@ -5,7 +5,6 @@
 namespace numina {
 template <typename Type>
 class ExpPolyTerm : public Term<Type> {
-private:
     const Type coefficient, root;
     const int power;
 

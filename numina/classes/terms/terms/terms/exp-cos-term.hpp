@@ -6,7 +6,6 @@
 namespace numina {
 template <typename Type>
 class ExpCosTerm : public Term<Type> {
-private:
     using Comp = std::complex<Type>;
     const Type amplitude, alpha, omega, phi;
 
