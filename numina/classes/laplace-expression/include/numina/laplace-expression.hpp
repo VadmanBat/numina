@@ -11,15 +11,13 @@ class LaplaceExpression {
     using Comp    = std::complex<Type>;
     using VecComp = std::vector<Comp>;
 
-    Type init_value;
+    Type init_value = 0;
     std::vector<std::unique_ptr<Term<Type>>> terms;
 
 public:
-    explicit LaplaceExpression() : init_value(0) {
-    }
+    explicit LaplaceExpression() = default;
 
-    explicit LaplaceExpression(const VecComp& roots, const VecComp& coeffs, const std::vector<int>& powers) :
-        init_value(0) {
+    explicit LaplaceExpression(const VecComp& roots, const VecComp& coeffs, const std::vector<int>& powers) {
         static const Type epsilon = std::sqrt(std::numeric_limits<Type>::epsilon());
         //const auto n = std::min({roots.size(), coeffs.size(), powers.size()});
         const auto n = std::min(std::min(roots.size(), coeffs.size()), powers.size());
@@ -33,20 +31,12 @@ public:
         }
     }
 
-    explicit LaplaceExpression(const std::vector<std::unique_ptr<Term<Type>>>& terms, Type init_value = 0) :
-        init_value(init_value),
-        terms(terms) {
-    }
-
     explicit LaplaceExpression(std::vector<std::unique_ptr<Term<Type>>>&& terms, Type init_value = 0) :
         init_value(init_value),
         terms(std::move(terms)) {
     }
 
-    ~LaplaceExpression() {
-        for (const auto term : terms)
-            delete term;
-    }
+    ~LaplaceExpression() = default;
 
     void emplace_back(const Comp& c, const Comp& r, int n) {
         if (std::abs(r) == 0)
@@ -55,73 +45,78 @@ public:
                     init_value += c.real();
                     return;
                 case 1:
-                    terms.push_back(new TimeTerm(c.real()));
+                    terms.push_back(std::make_unique<TimeTerm>(c.real()));
                     return;
                 default:
-                    terms.push_back(new PolyTerm(c.real(), n));
+                    terms.push_back(std::make_unique<PolyTerm>(c.real(), n));
                     return;
             }
 
         if (r.imag() == 0)
             switch (n) {
                 case 0:
-                    terms.push_back(new ExpTerm(c.real(), r.real()));
+                    terms.push_back(std::make_unique<ExpTerm>(c.real(), r.real()));
                     return;
                 case 1:
-                    terms.push_back(new ExpTimeTerm(c.real(), r.real()));
+                    terms.push_back(std::make_unique<ExpTimeTerm>(c.real(), r.real()));
                     return;
                 default:
-                    terms.push_back(new ExpPolyTerm(c.real(), r.real(), n));
+                    terms.push_back(std::make_unique<ExpPolyTerm>(c.real(), r.real(), n));
                     return;
             }
 
         if (r.real() == 0)
             switch (n) {
                 case 0:
-                    terms.push_back(new CosTerm(c, r));
+                    terms.push_back(std::make_unique<CosTerm>(c, r));
                     return;
                 case 1:
-                    terms.push_back(new CosTimeTerm(c, r));
+                    terms.push_back(std::make_unique<CosTimeTerm>(c, r));
                     return;
                 default:
-                    terms.push_back(new CosPolyTerm(c, r, n));
+                    terms.push_back(std::make_unique<CosPolyTerm>(c, r, n));
                     return;
             }
 
         switch (n) {
             case 0:
-                terms.push_back(new ExpCosTerm(c, r));
+                terms.push_back(std::make_unique<ExpCosTerm>(c, r));
                 return;
             case 1:
-                terms.push_back(new ExpCosTimeTerm(c, r));
+                terms.push_back(std::make_unique<ExpCosTimeTerm>(c, r));
                 return;
             default:
-                terms.push_back(new ExpCosPolyTerm(c, r, n));
+                terms.push_back(std::make_unique<ExpCosPolyTerm>(c, r, n));
                 return;
         }
     }
 
-    void push_back(std::vector<std::unique_ptr<Term<Type>>> new_terms) {
-        terms.insert(terms.end(), new_terms.begin(), new_terms.end());
+    void push_back(std::vector<std::unique_ptr<Term<Type>>>&& new_terms) {
+        terms.insert(
+            terms.end(),
+            std::make_move_iterator(new_terms.begin()),
+            std::make_move_iterator(new_terms.end())
+            );
     }
 
     Type operator()(double t) const {
         Type result = init_value;
-        for (const auto term : terms)
+        for (const auto& term : terms)
             result += term->value(t);
-
         return result;
     }
 
     LaplaceExpression derivative() const {
         Type derivative_init_value = 0;
-        std::vector<Term<Type>*> derivative_terms;
+        std::vector<std::unique_ptr<Term<Type>>> derivative_terms;
+        derivative_terms.reserve(terms.size() * 2);
         for (const auto term : terms) {
             derivative_init_value += term->derivativeConstant();
             auto derivative       = term->derivative();
             derivative_terms.insert(
                 derivative_terms.end(),
-                derivative.begin(), derivative.end()
+                std::make_move_iterator(derivative.begin()),
+                std::make_move_iterator(derivative.end())
                 );
         }
         return LaplaceExpression(derivative_terms, derivative_init_value);
@@ -130,7 +125,7 @@ public:
     [[nodiscard]] std::string string() const {
         if (init_value != 0) {
             std::string result = (std::stringstream() << init_value).str();
-            for (const auto term : terms)
+            for (const auto& term : terms)
                 result += (term->isPositive() ? " + " : " - ") + term->unsignedString();
             return result;
         }
@@ -144,22 +139,21 @@ public:
     }
 
     LaplaceExpression& operator=(const LaplaceExpression& other) {
-        for (const auto term : terms)
-            delete term;
-        terms.clear();
-        init_value = other.init_value;
-        terms.reserve(other.terms.size());
-        for (auto term : other.terms)
-            terms.push_back(term->clone());
+        if (this != &other) {
+            init_value = other.init_value;
+            terms.clear();
+            terms.reserve(other.terms.size());
+            for (const auto& term : other.terms)
+                terms.push_back(term->clone());
+        }
         return *this;
     }
 
     LaplaceExpression& operator=(LaplaceExpression&& other) noexcept {
-        for (const auto term : terms)
-            delete term;
-        terms.clear();
-        init_value = other.init_value;
-        terms      = std::move(other.terms);
+        if (this != &other) {
+            init_value = other.init_value;
+            terms      = std::move(other.terms);
+        }
         return *this;
     }
 };
