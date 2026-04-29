@@ -1,12 +1,8 @@
-//
+#pragma once
 // Created by Vadim on 07.01.2025.
-//
-
-#ifndef MATH_CORE_UTIME_TERMS_HPP
-#define MATH_CORE_UTIME_TERMS_HPP
-
 #include "time-terms.hpp"
 
+namespace numina {
 template <typename Type>
 class UTimeTerm : public Term<Type> {
 private:
@@ -34,7 +30,7 @@ public:
 
     [[nodiscard]] inline std::vector<Term<Type>*> derivative() const override {
         if (power == 2)
-            return {new TimeTerm(power * coefficient)};
+            return {new TimeTerm(2 * coefficient)};
         return {new UTimeTerm(power * coefficient, power - 1)};
     }
 
@@ -49,10 +45,6 @@ public:
     [[nodiscard]] inline std::string unsignedString() const override {
         return (std::stringstream() << std::abs(coefficient) << " × t<sup>" << power << "</sup>").str();
     }
-
-    [[nodiscard]] inline Type derivativeConstant() const override {
-        return coefficient;
-    };
 };
 
 template <typename Type>
@@ -258,5 +250,4 @@ public:
                 phi_sign << ' ' << std::abs(phi) << " × t<sup>" << power << "</sup>").str();
     }
 };
-
-#endif //MATH_CORE_UTIME_TERMS_HPP
+}

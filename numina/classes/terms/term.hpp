@@ -1,15 +1,11 @@
-//
+#pragma once
 // Created by Vadim on 05.01.2025.
-//
-
-#ifndef MATH_CORE_TERM_HPP
-#define MATH_CORE_TERM_HPP
-
 #include <sstream>
 #include <iomanip>
 #include <complex>
 #include <vector>
 
+namespace numina {
 template <typename Type>
 class Term {
 public:
@@ -197,5 +193,4 @@ public:
                 phi_sign << ' ' << std::abs(phi) << ')').str();
     }
 };
-
-#endif //MATH_CORE_TERM_HPP
+}

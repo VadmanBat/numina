@@ -1,12 +1,8 @@
-//
+#pragma once
 // Created by Vadim on 07.01.2025.
-//
-
-#ifndef MATH_CORE_TIME_TERMS_HPP
-#define MATH_CORE_TIME_TERMS_HPP
-
 #include "../term.hpp"
 
+namespace numina {
 template <typename Type>
 class TimeTerm : public Term<Type> {
 private:
@@ -194,7 +190,7 @@ public:
 
     [[nodiscard]] inline std::vector<Term<Type>*> derivative() const override {
         return {
-            new ExpCosTerm(amplitude, alpha, omega, phi),
+            new ExpCosTerm(amplitude * alpha, alpha, omega, phi),
             new ExpCosTimeTerm(amplitude, alpha, omega, phi),
             new ExpCosTimeTerm(-amplitude * omega, alpha, omega, phi - std::numbers::pi_v<Type> / 2)
         };
@@ -222,5 +218,4 @@ public:
                 phi_sign << ' ' << std::abs(phi) << ") × t").str();
     }
 };
-
-#endif //MATH_CORE_TIME_TERMS_HPP
+}

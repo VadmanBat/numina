@@ -1,12 +1,8 @@
-//
+#pragma once
 // Created by Vadim on 07.01.2025.
-//
-
-#ifndef REGVALVE_TERM_EXPRESSION_HPP
-#define REGVALVE_TERM_EXPRESSION_HPP
-
 #include "time-terms/utime-terms.hpp"
 
+namespace numina {
 template <typename Type>
 class TermExpression {
 private:
@@ -53,39 +49,39 @@ public:
     void emplace_back(const Comp& c, const Comp& r, int n) {
         if (std::abs(r) == 0)
             switch (n) {
-                case 0:
+            case 0:
                     init_value += c.real();
                     return;
-                case 1:
+            case 1:
                     terms.push_back(new TimeTerm(c.real()));
                     return;
-                default:
+            default:
                     terms.push_back(new UTimeTerm(c.real(), n));
                     return;
             }
 
         if (r.imag() == 0)
             switch (n) {
-                case 0:
+            case 0:
                     terms.push_back(new ExpTerm(c.real(), r.real()));
                     return;
-                case 1:
+            case 1:
                     terms.push_back(new ExpTimeTerm(c.real(), r.real()));
                     return;
-                default:
+            default:
                     terms.push_back(new ExpUTimeTerm(c.real(), r.real(), n));
                     return;
             }
 
         if (r.real() == 0)
             switch (n) {
-                case 0:
+            case 0:
                     terms.push_back(new CosTerm(c, r));
                     return;
-                case 1:
+            case 1:
                     terms.push_back(new CosTimeTerm(c, r));
                     return;
-                default:
+            default:
                     terms.push_back(new CosUTimeTerm(c, r, n));
                     return;
             }
@@ -167,5 +163,4 @@ public:
         return *this;
     }
 };
-
-#endif //REGVALVE_TERM_EXPRESSION_HPP
+}
