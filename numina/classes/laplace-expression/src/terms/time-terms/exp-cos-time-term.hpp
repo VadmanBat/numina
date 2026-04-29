@@ -40,7 +40,7 @@ public:
 
     [[nodiscard]] std::vector<std::unique_ptr<Term<Type>>> derivative() const override {
         return {
-            std::make_unique<ExpCosTerm>(amplitude, alpha, omega, phi),
+            std::make_unique<ExpCosTerm<Type>>(amplitude, alpha, omega, phi),
             std::make_unique<ExpCosTimeTerm>(amplitude * alpha, alpha, omega, phi),
             std::make_unique<ExpCosTimeTerm>(-amplitude * omega, alpha, omega, phi - std::numbers::pi_v<Type> / 2)
         };

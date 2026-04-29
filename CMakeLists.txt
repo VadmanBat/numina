@@ -12,8 +12,8 @@ include_directories(${EIGEN3_INCLUDE_DIR})
 
 # ========== Источники и исполняемый файл ==========
 add_executable(${PROJECT_NAME}
-        #main.cpp
-        numina/classes/poly-solver/tests/poly-solver-test.cpp
+        main.cpp
+        #numina/classes/poly-solver/tests/poly-solver-test.cpp
 
         numina/classes/polynomial/src/core/remove-leading-zeros.cpp
         numina/classes/polynomial/src/operators/analytical.cpp

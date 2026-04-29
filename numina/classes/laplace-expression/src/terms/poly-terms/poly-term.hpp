@@ -30,7 +30,7 @@ public:
 
     [[nodiscard]] std::vector<std::unique_ptr<Term<Type>>> derivative() const override {
         if (power == 2)
-            return {std::make_unique<TimeTerm>(2 * coefficient)};
+            return {std::make_unique<TimeTerm<Type>>(2 * coefficient)};
         return {std::make_unique<PolyTerm>(power * coefficient, power - 1)};
     }
 

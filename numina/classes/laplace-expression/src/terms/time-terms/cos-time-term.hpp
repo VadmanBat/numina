@@ -37,7 +37,7 @@ public:
 
     [[nodiscard]] std::vector<std::unique_ptr<Term<Type>>> derivative() const override {
         return {
-            std::make_unique<CosTerm>(amplitude, omega, phi),
+            std::make_unique<CosTerm<Type>>(amplitude, omega, phi),
             std::make_unique<CosTimeTerm>(-amplitude * omega, omega, phi - std::numbers::pi_v<Type> / 2)
         };
     }

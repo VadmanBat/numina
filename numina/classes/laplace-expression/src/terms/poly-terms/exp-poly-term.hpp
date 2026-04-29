@@ -32,7 +32,7 @@ public:
     [[nodiscard]] std::vector<std::unique_ptr<Term<Type>>> derivative() const override {
         if (power == 2)
             return {
-                std::make_unique<ExpTimeTerm>(2 * coefficient, root),
+                std::make_unique<ExpTimeTerm<Type>>(2 * coefficient, root),
                 std::make_unique<ExpPolyTerm>(root * coefficient, root, 2)
             };
         return {

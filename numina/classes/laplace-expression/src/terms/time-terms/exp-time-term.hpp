@@ -28,8 +28,8 @@ public:
 
     std::vector<std::unique_ptr<Term<Type>>> derivative() const override {
         return {
-            std::make_unique<ExpTerm>(coefficient * root, root),
-            std::make_unique<ExpTerm>(coefficient, root)
+            std::make_unique<ExpTerm<Type>>(coefficient * root, root),
+            std::make_unique<ExpTerm<Type>>(coefficient, root)
         };
     }
 

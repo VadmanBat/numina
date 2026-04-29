@@ -42,7 +42,7 @@ public:
     [[nodiscard]] std::vector<std::unique_ptr<Term<Type>>> derivative() const override {
         if (power == 2)
             return {
-                std::make_unique<CosTimeTerm>(2 * amplitude, omega, phi),
+                std::make_unique<CosTimeTerm<Type>>(2 * amplitude, omega, phi),
                 std::make_unique<CosPolyTerm>(-amplitude * omega, omega, phi - std::numbers::pi_v<Type> / 2, 2)
             };
         return {

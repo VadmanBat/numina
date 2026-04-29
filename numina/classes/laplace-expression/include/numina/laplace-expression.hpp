@@ -45,48 +45,48 @@ public:
                     init_value += c.real();
                     return;
                 case 1:
-                    terms.push_back(std::make_unique<TimeTerm>(c.real()));
+                    terms.push_back(std::make_unique<TimeTerm<Type>>(c.real()));
                     return;
                 default:
-                    terms.push_back(std::make_unique<PolyTerm>(c.real(), n));
+                    terms.push_back(std::make_unique<PolyTerm<Type>>(c.real(), n));
                     return;
             }
 
         if (r.imag() == 0)
             switch (n) {
                 case 0:
-                    terms.push_back(std::make_unique<ExpTerm>(c.real(), r.real()));
+                    terms.push_back(std::make_unique<ExpTerm<Type>>(c.real(), r.real()));
                     return;
                 case 1:
-                    terms.push_back(std::make_unique<ExpTimeTerm>(c.real(), r.real()));
+                    terms.push_back(std::make_unique<ExpTimeTerm<Type>>(c.real(), r.real()));
                     return;
                 default:
-                    terms.push_back(std::make_unique<ExpPolyTerm>(c.real(), r.real(), n));
+                    terms.push_back(std::make_unique<ExpPolyTerm<Type>>(c.real(), r.real(), n));
                     return;
             }
 
         if (r.real() == 0)
             switch (n) {
                 case 0:
-                    terms.push_back(std::make_unique<CosTerm>(c, r));
+                    terms.push_back(std::make_unique<CosTerm<Type>>(c, r));
                     return;
                 case 1:
-                    terms.push_back(std::make_unique<CosTimeTerm>(c, r));
+                    terms.push_back(std::make_unique<CosTimeTerm<Type>>(c, r));
                     return;
                 default:
-                    terms.push_back(std::make_unique<CosPolyTerm>(c, r, n));
+                    terms.push_back(std::make_unique<CosPolyTerm<Type>>(c, r, n));
                     return;
             }
 
         switch (n) {
             case 0:
-                terms.push_back(std::make_unique<ExpCosTerm>(c, r));
+                terms.push_back(std::make_unique<ExpCosTerm<Type>>(c, r));
                 return;
             case 1:
-                terms.push_back(std::make_unique<ExpCosTimeTerm>(c, r));
+                terms.push_back(std::make_unique<ExpCosTimeTerm<Type>>(c, r));
                 return;
             default:
-                terms.push_back(std::make_unique<ExpCosPolyTerm>(c, r, n));
+                terms.push_back(std::make_unique<ExpCosPolyTerm<Type>>(c, r, n));
                 return;
         }
     }
