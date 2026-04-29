@@ -1,6 +1,6 @@
 #pragma once
 // Created by Vadim on 05.01.2025.
-#include "term.hpp"
+#include "../../term.hpp"
 #include <cmath>
 
 namespace numina {

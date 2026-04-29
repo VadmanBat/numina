@@ -1,14 +1,13 @@
 #pragma once
 // Created by Vadim on 07.01.2025.
-#include "time-terms/poly-terms/poly-term.hpp"
-#include "time-terms/poly-terms/exp-poly-term.hpp"
-#include "time-terms/poly-terms/cos-poly-term.hpp"
-#include "time-terms/poly-terms/exp-cos-poly-term.hpp"
+#include "../../src/terms/poly-terms/poly-term.hpp"
+#include "../../src/terms/poly-terms/exp-poly-term.hpp"
+#include "../../src/terms/poly-terms/cos-poly-term.hpp"
+#include "../../src/terms/poly-terms/exp-cos-poly-term.hpp"
 
 namespace numina {
 template <typename Type>
-class TermExpression {
-private:
+class LaplaceExpression {
     using Comp    = std::complex<Type>;
     using VecComp = std::vector<Comp>;
 
@@ -16,10 +15,10 @@ private:
     std::vector<Term<Type>*> terms;
 
 public:
-    explicit TermExpression() : init_value(0) {
+    explicit LaplaceExpression() : init_value(0) {
     }
 
-    explicit TermExpression(const VecComp& roots, const VecComp& coeffs, const std::vector<int>& powers) :
+    explicit LaplaceExpression(const VecComp& roots, const VecComp& coeffs, const std::vector<int>& powers) :
         init_value(0) {
         static const Type epsilon = std::sqrt(std::numeric_limits<Type>::epsilon());
         //const auto n = std::min({roots.size(), coeffs.size(), powers.size()});
@@ -34,17 +33,17 @@ public:
         }
     }
 
-    explicit TermExpression(const std::vector<Term<Type>*>& terms, Type init_value = 0) :
+    explicit LaplaceExpression(const std::vector<Term<Type>*>& terms, Type init_value = 0) :
         init_value(init_value),
         terms(terms) {
     }
 
-    explicit TermExpression(std::vector<Term<Type>*>&& terms, Type init_value = 0) :
+    explicit LaplaceExpression(std::vector<Term<Type>*>&& terms, Type init_value = 0) :
         init_value(init_value),
         terms(std::move(terms)) {
     }
 
-    ~TermExpression() {
+    ~LaplaceExpression() {
         for (const auto term : terms)
             delete term;
     }
@@ -116,7 +115,7 @@ public:
         return result;
     }
 
-    inline TermExpression derivative() const {
+    inline LaplaceExpression derivative() const {
         Type derivative_init_value = 0;
         std::vector<Term<Type>*> derivative_terms;
         for (const auto term : terms) {
@@ -127,7 +126,7 @@ public:
                 derivative.begin(), derivative.end()
                 );
         }
-        return TermExpression(derivative_terms, derivative_init_value);
+        return LaplaceExpression(derivative_terms, derivative_init_value);
     }
 
     [[nodiscard]] inline std::string string() const {
@@ -146,7 +145,7 @@ public:
         return result;
     }
 
-    TermExpression& operator=(const TermExpression& other) {
+    LaplaceExpression& operator=(const LaplaceExpression& other) {
         for (const auto term : terms)
             delete term;
         terms.clear();
@@ -157,7 +156,7 @@ public:
         return *this;
     }
 
-    TermExpression& operator=(TermExpression&& other) noexcept {
+    LaplaceExpression& operator=(LaplaceExpression&& other) noexcept {
         for (const auto term : terms)
             delete term;
         terms.clear();

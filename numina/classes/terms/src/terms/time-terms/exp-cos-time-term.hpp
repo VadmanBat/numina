@@ -1,6 +1,6 @@
 #pragma once
 // Created by Vadim on 07.01.2025.
-#include "../terms/exp-cos-term.hpp"
+#include "../base-terms/exp-cos-term.hpp"
 
 namespace numina {
 template <typename Type>

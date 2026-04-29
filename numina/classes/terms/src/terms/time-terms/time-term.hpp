@@ -1,6 +1,6 @@
 #pragma once
 // Created by Vadim on 07.01.2025.
-#include "../terms/term.hpp"
+#include "../../term.hpp"
 
 namespace numina {
 template <typename Type>
