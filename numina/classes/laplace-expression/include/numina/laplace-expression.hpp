@@ -12,7 +12,7 @@ class LaplaceExpression {
     using VecComp = std::vector<Comp>;
 
     Type init_value;
-    std::vector<Term<Type>*> terms;
+    std::vector<std::unique_ptr<Term<Type>>> terms;
 
 public:
     explicit LaplaceExpression() : init_value(0) {
@@ -33,12 +33,12 @@ public:
         }
     }
 
-    explicit LaplaceExpression(const std::vector<Term<Type>*>& terms, Type init_value = 0) :
+    explicit LaplaceExpression(const std::vector<std::unique_ptr<Term<Type>>>& terms, Type init_value = 0) :
         init_value(init_value),
         terms(terms) {
     }
 
-    explicit LaplaceExpression(std::vector<Term<Type>*>&& terms, Type init_value = 0) :
+    explicit LaplaceExpression(std::vector<std::unique_ptr<Term<Type>>>&& terms, Type init_value = 0) :
         init_value(init_value),
         terms(std::move(terms)) {
     }
@@ -101,7 +101,7 @@ public:
         }
     }
 
-    void push_back(std::vector<Term<Type>*> new_terms) {
+    void push_back(std::vector<std::unique_ptr<Term<Type>>> new_terms) {
         terms.insert(terms.end(), new_terms.begin(), new_terms.end());
     }
 

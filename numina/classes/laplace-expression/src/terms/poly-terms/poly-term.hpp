@@ -20,18 +20,18 @@ public:
         power(other.power) {
     }
 
-    Term<Type>* clone() const override {
-        return new PolyTerm(*this);
+    std::unique_ptr<Term<Type>> clone() const override {
+        return std::make_unique<PolyTerm>(*this);
     }
 
     Type value(Type t) const override {
         return coefficient * std::pow(t, power);
     }
 
-    [[nodiscard]] std::vector<Term<Type>*> derivative() const override {
+    [[nodiscard]] std::vector<std::unique_ptr<Term<Type>>> derivative() const override {
         if (power == 2)
-            return {new TimeTerm(2 * coefficient)};
-        return {new PolyTerm(power * coefficient, power - 1)};
+            return {std::make_unique<TimeTerm>(2 * coefficient)};
+        return {std::make_unique<PolyTerm>(power * coefficient, power - 1)};
     }
 
     [[nodiscard]] bool isPositive() const override {

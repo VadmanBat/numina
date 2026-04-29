@@ -28,16 +28,16 @@ public:
         phi(other.phi) {
     }
 
-    Term<Type>* clone() const override {
-        return new CosTerm(*this);
+    std::unique_ptr<Term<Type>> clone() const override {
+        return std::make_unique<CosTerm>(*this);
     }
 
     Type value(Type t) const override {
         return amplitude * std::cos(omega * t + phi);
     }
 
-    [[nodiscard]] std::vector<Term<Type>*> derivative() const override {
-        return {new CosTerm(-amplitude * omega, omega, phi - std::numbers::pi_v<Type> / 2)};
+    [[nodiscard]] std::vector<std::unique_ptr<Term<Type>>> derivative() const override {
+        return {std::make_unique<CosTerm>(-amplitude * omega, omega, phi - std::numbers::pi_v<Type> / 2)};
     }
 
     [[nodiscard]] bool isPositive() const override {

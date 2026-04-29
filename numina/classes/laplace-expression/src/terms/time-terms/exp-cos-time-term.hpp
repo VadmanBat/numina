@@ -30,19 +30,19 @@ public:
         phi(other.phi) {
     }
 
-    Term<Type>* clone() const override {
-        return new ExpCosTimeTerm(*this);
+    std::unique_ptr<Term<Type>> clone() const override {
+        return std::make_unique<ExpCosTimeTerm>(*this);
     }
 
     Type value(Type t) const override {
         return amplitude * std::exp(alpha * t) * std::cos(omega * t + phi) * t;
     }
 
-    [[nodiscard]] std::vector<Term<Type>*> derivative() const override {
+    [[nodiscard]] std::vector<std::unique_ptr<Term<Type>>> derivative() const override {
         return {
-            new ExpCosTerm(amplitude, alpha, omega, phi),
-            new ExpCosTimeTerm(amplitude * alpha, alpha, omega, phi),
-            new ExpCosTimeTerm(-amplitude * omega, alpha, omega, phi - std::numbers::pi_v<Type> / 2)
+            std::make_unique<ExpCosTerm>(amplitude, alpha, omega, phi),
+            std::make_unique<ExpCosTimeTerm>(amplitude * alpha, alpha, omega, phi),
+            std::make_unique<ExpCosTimeTerm>(-amplitude * omega, alpha, omega, phi - std::numbers::pi_v<Type> / 2)
         };
     }
 

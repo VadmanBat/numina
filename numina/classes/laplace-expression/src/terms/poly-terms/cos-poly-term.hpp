@@ -31,23 +31,23 @@ public:
         power(other.power) {
     }
 
-    Term<Type>* clone() const override {
-        return new CosPolyTerm(*this);
+    std::unique_ptr<Term<Type>> clone() const override {
+        return std::make_unique<CosPolyTerm>(*this);
     }
 
     Type value(Type t) const override {
         return amplitude * std::cos(omega * t + phi) * std::pow(t, power);
     }
 
-    [[nodiscard]] std::vector<Term<Type>*> derivative() const override {
+    [[nodiscard]] std::vector<std::unique_ptr<Term<Type>>> derivative() const override {
         if (power == 2)
             return {
-                new CosTimeTerm(2 * amplitude, omega, phi),
-                new CosPolyTerm(-amplitude * omega, omega, phi - std::numbers::pi_v<Type> / 2, 2)
+                std::make_unique<CosTimeTerm>(2 * amplitude, omega, phi),
+                std::make_unique<CosPolyTerm>(-amplitude * omega, omega, phi - std::numbers::pi_v<Type> / 2, 2)
             };
         return {
-            new CosPolyTerm(power * amplitude, omega, phi, power - 1),
-            new CosPolyTerm(-amplitude * omega, omega, phi - std::numbers::pi_v<Type> / 2, power)
+            std::make_unique<CosPolyTerm>(power * amplitude, omega, phi, power - 1),
+            std::make_unique<CosPolyTerm>(-amplitude * omega, omega, phi - std::numbers::pi_v<Type> / 2, power)
         };
     }
 

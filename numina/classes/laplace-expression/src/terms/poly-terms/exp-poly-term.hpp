@@ -21,23 +21,23 @@ public:
         power(other.power) {
     }
 
-    Term<Type>* clone() const override {
-        return new ExpPolyTerm(*this);
+    std::unique_ptr<Term<Type>> clone() const override {
+        return std::make_unique<ExpPolyTerm>(*this);
     }
 
     Type value(Type t) const override {
         return coefficient * std::exp(root * t) * std::pow(t, power);
     }
 
-    [[nodiscard]] std::vector<Term<Type>*> derivative() const override {
+    [[nodiscard]] std::vector<std::unique_ptr<Term<Type>>> derivative() const override {
         if (power == 2)
             return {
-                new ExpTimeTerm(2 * coefficient, root),
-                new ExpPolyTerm(root * coefficient, root, 2)
+                std::make_unique<ExpTimeTerm>(2 * coefficient, root),
+                std::make_unique<ExpPolyTerm>(root * coefficient, root, 2)
             };
         return {
-            new ExpPolyTerm(power * coefficient, root, power - 1),
-            new ExpPolyTerm(root * coefficient, root, power)
+            std::make_unique<ExpPolyTerm>(power * coefficient, root, power - 1),
+            std::make_unique<ExpPolyTerm>(root * coefficient, root, power)
         };
     }
 

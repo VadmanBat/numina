@@ -34,7 +34,7 @@ public:
         power(other.power) {
     }
 
-    Term<Type>* clone() const override {
+    std::unique_ptr<Term<Type>> clone() const override {
         return new ExpCosPolyTerm(*this);
     }
 
@@ -42,17 +42,17 @@ public:
         return amplitude * std::exp(alpha * t) * std::cos(omega * t + phi) * std::pow(t, power);
     }
 
-    [[nodiscard]] std::vector<Term<Type>*> derivative() const override {
+    [[nodiscard]] std::vector<std::unique_ptr<Term<Type>>> derivative() const override {
         if (power == 2)
             return {
-                new ExpCosTimeTerm(2 * amplitude, alpha, omega, phi),
-                new ExpCosPolyTerm(alpha * amplitude, alpha, omega, phi, 2),
-                new ExpCosPolyTerm(-amplitude * omega, alpha, omega, phi - std::numbers::pi_v<Type> / 2, 2)
+                std::make_unique<ExpCosTimeTerm>(2 * amplitude, alpha, omega, phi),
+                std::make_unique<ExpCosPolyTerm>(alpha * amplitude, alpha, omega, phi, 2),
+                std::make_unique<ExpCosPolyTerm>(-amplitude * omega, alpha, omega, phi - std::numbers::pi_v<Type> / 2, 2)
             };
         return {
-            new ExpCosPolyTerm(power * amplitude, alpha, omega, phi, power - 1),
-            new ExpCosPolyTerm(alpha * amplitude, alpha, omega, phi, power),
-            new ExpCosPolyTerm(-amplitude * omega, alpha, omega, phi - std::numbers::pi_v<Type> / 2, power)
+            std::make_unique<ExpCosPolyTerm>(power * amplitude, alpha, omega, phi, power - 1),
+            std::make_unique<ExpCosPolyTerm>(alpha * amplitude, alpha, omega, phi, power),
+            std::make_unique<ExpCosPolyTerm>(-amplitude * omega, alpha, omega, phi - std::numbers::pi_v<Type> / 2, power)
         };
     }
 

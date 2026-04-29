@@ -1,8 +1,9 @@
 #pragma once
 // Created by Vadim on 05.01.2025.
+#include <memory>
+#include <vector>
 #include <sstream>
 #include <iomanip>
-#include <vector>
 
 namespace numina {
 template <typename Type>
@@ -10,8 +11,8 @@ class Term {
 public:
     virtual ~Term() = default;
     [[nodiscard]] virtual Type value(Type t) const = 0;
-    [[nodiscard]] virtual std::vector<Term*> derivative() const = 0;
-    [[nodiscard]] virtual Term* clone() const = 0;
+    virtual std::vector<std::unique_ptr<Term>> derivative() const { return {}; }
+    virtual std::unique_ptr<Term> clone() const = 0;
 
     [[nodiscard]] virtual bool isPositive() const = 0;
     [[nodiscard]] virtual std::string string() const = 0;

@@ -16,16 +16,12 @@ public:
         coefficient(other.coefficient) {
     }
 
-    Term<Type>* clone() const override {
-        return new TimeTerm(*this);
+    std::unique_ptr<Term<Type>> clone() const override {
+        return std::make_unique<TimeTerm>(*this);
     }
 
     Type value(Type t) const override {
         return coefficient * t;
-    }
-
-    [[nodiscard]] std::vector<Term<Type>*> derivative() const override {
-        return {};
     }
 
     [[nodiscard]] bool isPositive() const override {

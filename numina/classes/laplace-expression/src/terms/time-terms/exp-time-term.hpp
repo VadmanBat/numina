@@ -18,18 +18,18 @@ public:
         root(other.root) {
     }
 
-    Term<Type>* clone() const override {
-        return new ExpTimeTerm(*this);
+    std::unique_ptr<Term<Type>> clone() const override {
+        return std::make_unique<ExpTimeTerm>(*this);
     }
 
     Type value(Type t) const override {
         return coefficient * std::exp(root * t) * t;
     }
 
-    std::vector<Term<Type>*> derivative() const override {
+    std::vector<std::unique_ptr<Term<Type>>> derivative() const override {
         return {
-            new ExpTerm(coefficient * root, root),
-            new ExpTerm(coefficient, root)
+            std::make_unique<ExpTerm>(coefficient * root, root),
+            std::make_unique<ExpTerm>(coefficient, root)
         };
     }
 
