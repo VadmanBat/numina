@@ -19,8 +19,7 @@ public:
 
     explicit LaplaceExpression(const VecComp& roots, const VecComp& coeffs, const std::vector<int>& powers) {
         static const Type epsilon = std::sqrt(std::numeric_limits<Type>::epsilon());
-        //const auto n = std::min({roots.size(), coeffs.size(), powers.size()});
-        const auto n = std::min(std::min(roots.size(), coeffs.size()), powers.size());
+        const auto n = std::min({roots.size(), coeffs.size(), powers.size()});
         for (std::size_t i = 0; i < n; ++i) {
             if (std::abs(coeffs[i]) < epsilon)
                 continue;
@@ -87,7 +86,6 @@ public:
                 return;
             default:
                 terms.push_back(std::make_unique<ExpCosPolyTerm<Type>>(c, r, n));
-                return;
         }
     }
 
@@ -110,7 +108,7 @@ public:
         Type derivative_init_value = 0;
         std::vector<std::unique_ptr<Term<Type>>> derivative_terms;
         derivative_terms.reserve(terms.size() * 2);
-        for (const auto term : terms) {
+        for (const auto& term : terms) {
             derivative_init_value += term->derivativeConstant();
             auto derivative       = term->derivative();
             derivative_terms.insert(
