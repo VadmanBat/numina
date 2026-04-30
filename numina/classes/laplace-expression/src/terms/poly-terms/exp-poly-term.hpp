@@ -30,15 +30,14 @@ public:
     }
 
     [[nodiscard]] std::vector<std::unique_ptr<Term<Type>>> derivative() const override {
+        std::vector<std::unique_ptr<Term<Type>>> result;
+        result.reserve(2);
         if (power == 2)
-            return {
-                std::make_unique<ExpTimeTerm<Type>>(2 * coefficient, root),
-                std::make_unique<ExpPolyTerm>(root * coefficient, root, 2)
-            };
-        return {
-            std::make_unique<ExpPolyTerm>(power * coefficient, root, power - 1),
-            std::make_unique<ExpPolyTerm>(root * coefficient, root, power)
-        };
+            result.push_back(std::make_unique<ExpTimeTerm<Type>>(2 * coefficient, root));
+        else
+            result.push_back(std::make_unique<ExpPolyTerm>(power * coefficient, root, power - 1));
+        result.push_back(std::make_unique<ExpPolyTerm>(root * coefficient, root, power));
+        return result;
     }
 
     [[nodiscard]] bool isPositive() const override {

@@ -29,9 +29,13 @@ public:
     }
 
     [[nodiscard]] std::vector<std::unique_ptr<Term<Type>>> derivative() const override {
+        std::vector<std::unique_ptr<Term<Type>>> result;
+        result.reserve(1);
         if (power == 2)
-            return {std::make_unique<TimeTerm<Type>>(2 * coefficient)};
-        return {std::make_unique<PolyTerm>(power * coefficient, power - 1)};
+            result.push_back(std::make_unique<TimeTerm<Type>>(2 * coefficient));
+        else
+            result.push_back(std::make_unique<PolyTerm>(power * coefficient, power - 1));
+        return result;
     }
 
     [[nodiscard]] bool isPositive() const override {

@@ -40,15 +40,14 @@ public:
     }
 
     [[nodiscard]] std::vector<std::unique_ptr<Term<Type>>> derivative() const override {
+        std::vector<std::unique_ptr<Term<Type>>> result;
+        result.reserve(2);
         if (power == 2)
-            return {
-                std::make_unique<CosTimeTerm<Type>>(2 * amplitude, omega, phi),
-                std::make_unique<CosPolyTerm>(-amplitude * omega, omega, phi - std::numbers::pi_v<Type> / 2, 2)
-            };
-        return {
-            std::make_unique<CosPolyTerm>(power * amplitude, omega, phi, power - 1),
-            std::make_unique<CosPolyTerm>(-amplitude * omega, omega, phi - std::numbers::pi_v<Type> / 2, power)
-        };
+            result.push_back(std::make_unique<CosTimeTerm<Type>>(2 * amplitude, omega, phi));
+        else
+            result.push_back(std::make_unique<CosPolyTerm>(power * amplitude, omega, phi, power - 1));
+        result.push_back(std::make_unique<CosPolyTerm>(-amplitude * omega, omega, phi - std::numbers::pi_v<Type> / 2, power));
+        return result;
     }
 
     [[nodiscard]] bool isPositive() const override {

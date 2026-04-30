@@ -28,7 +28,10 @@ public:
     }
 
     [[nodiscard]] std::vector<std::unique_ptr<Term<Type>>> derivative() const override {
-        return {std::make_unique<ExpTerm>(coefficient * root, root)};
+        std::vector<std::unique_ptr<Term<Type>>> result;
+        result.reserve(1);
+        result.emplace_back(std::make_unique<ExpTerm>(coefficient * root, root));
+        return result;
     }
 
     [[nodiscard]] bool isPositive() const override {

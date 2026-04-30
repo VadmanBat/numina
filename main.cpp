@@ -10,9 +10,6 @@
 #include "numina/classes/poly-solver/include/numina/poly-solver.h"
 
 int main(int argc, char* argv[]) {
-    numina::LaplaceExpression<double> a;
-    a.emplace_back(5, 6, 0);
-
     const Polynomial p1({1, -2});
     const Polynomial p2({1, -6});
     const Polynomial p3({1, -10});

@@ -43,17 +43,15 @@ public:
     }
 
     [[nodiscard]] std::vector<std::unique_ptr<Term<Type>>> derivative() const override {
+        std::vector<std::unique_ptr<Term<Type>>> result;
+        result.reserve(3);
         if (power == 2)
-            return {
-                std::make_unique<ExpCosTimeTerm<Type>>(2 * amplitude, alpha, omega, phi),
-                std::make_unique<ExpCosPolyTerm>(alpha * amplitude, alpha, omega, phi, 2),
-                std::make_unique<ExpCosPolyTerm>(-amplitude * omega, alpha, omega, phi - std::numbers::pi_v<Type> / 2, 2)
-            };
-        return {
-            std::make_unique<ExpCosPolyTerm>(power * amplitude, alpha, omega, phi, power - 1),
-            std::make_unique<ExpCosPolyTerm>(alpha * amplitude, alpha, omega, phi, power),
-            std::make_unique<ExpCosPolyTerm>(-amplitude * omega, alpha, omega, phi - std::numbers::pi_v<Type> / 2, power)
-        };
+            result.push_back(std::make_unique<ExpCosTimeTerm<Type>>(2 * amplitude, alpha, omega, phi));
+        else
+            result.push_back(std::make_unique<ExpCosPolyTerm>(power * amplitude, alpha, omega, phi, power - 1));
+        result.push_back(std::make_unique<ExpCosPolyTerm>(alpha * amplitude, alpha, omega, phi, power));
+        result.push_back(std::make_unique<ExpCosPolyTerm>(-amplitude * omega, alpha, omega, phi - std::numbers::pi_v<Type> / 2, power));
+        return result;
     }
 
     [[nodiscard]] bool isPositive() const override {

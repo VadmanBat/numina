@@ -40,10 +40,11 @@ public:
     }
 
     [[nodiscard]] std::vector<std::unique_ptr<Term<Type>>> derivative() const override {
-        return {
-            std::make_unique<ExpCosTerm>(amplitude * alpha, alpha, omega, phi),
-            std::make_unique<ExpCosTerm>(-omega * amplitude, alpha, omega, phi - std::numbers::pi_v<Type> / 2)
-        };
+        std::vector<std::unique_ptr<Term<Type>>> result;
+        result.reserve(2);
+        result.push_back(std::make_unique<ExpCosTerm>(amplitude * alpha, alpha, omega, phi));
+        result.push_back(std::make_unique<ExpCosTerm>(-omega * amplitude, alpha, omega, phi - std::numbers::pi_v<Type> / 2));
+        return result;
     }
 
     [[nodiscard]] bool isPositive() const override {
